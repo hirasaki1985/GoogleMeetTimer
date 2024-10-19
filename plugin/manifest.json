@@ -1,0 +1,19 @@
+{
+  "name": "GoogleMeetTimer",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "Timer on Google Meet.",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://va.pia.jp/*"
+      ],
+      "js": [
+        "index.js"
+      ],
+      "css": [
+        "global.css"
+      ]
+    }
+  ]
+}
