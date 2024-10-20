@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "description": "Timer on Google Meet.",
-  "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
-  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": ["https://meet.google.com/*"],
-      "html": ["index.html"]
+      "js": ["index.js"]
     }
   ]
 }

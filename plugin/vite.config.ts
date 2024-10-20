@@ -1,6 +1,7 @@
-import { resolve, join } from 'path';
-import { defineConfig, PluginOption } from 'vite';
-import { chromeExtension } from 'vite-plugin-chrome-extension';
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   server: {
@@ -12,22 +13,31 @@ export default defineConfig({
   },
   root: resolve(__dirname, 'src'),
   // plugins: [chromeExtension() as unknown as PluginOption],
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        { src: resolve(__dirname, 'manifest.json'), dest: './' }, // manifest.jsonをdistにコピー
+      ],
+    }),
+  ],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
     },
   },
   build: {
-    manifest: true,
+    // manifest: true,
     outDir: resolve(__dirname, 'dist'),
     rollupOptions: {
-      // input: join(__dirname, 'public/manifest.json'),
+      external: ['vite-plugin-static-copy'],
       input: {
-        index: join(__dirname, 'src/index.tsx'),
+        index: resolve(__dirname, 'src/index.tsx'),
+        background: resolve(__dirname, 'src/background.ts'),
+        popup: resolve(__dirname, 'src/popup.html'),
       },
       output: {
-        // entryFileNames: '[name].js',
-        chunkFileNames: 'assets/chunk-[hash].js',
+        entryFileNames: '[name].js',
       },
     },
   },
