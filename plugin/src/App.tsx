@@ -1,6 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {
+  GoogleMeetSettingContextProvider,
+  useGoogleMeetSettingContext,
+} from './domain/googleMeet/context/GoogleMeetSettingContext';
+import { GoogleMeetTimer } from './components/GoogleMeetTimer';
+
+export const AppContent = () => {
+  const { state, action } = useGoogleMeetSettingContext();
+
+  /**
+   * 初回実行
+   */
+  useEffect(() => {
+    action.setUp();
+  }, []);
+
+  if (!state.isReady) {
+    return <div>loading...</div>;
+  }
+
+  return <GoogleMeetTimer />;
+};
 
 export const App = () => {
-  console.log('App Component is loaded.');
-  return <p className={'title'}>hello world</p>;
+  return (
+    <GoogleMeetSettingContextProvider>
+      <AppContent />
+    </GoogleMeetSettingContextProvider>
+  );
 };
