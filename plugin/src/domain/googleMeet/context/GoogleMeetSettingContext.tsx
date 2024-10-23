@@ -5,19 +5,23 @@ import React, {
   useContext,
   useState,
 } from 'react';
+import {
+  GoogleMeetSetting,
+  initGoogleMeetSetting,
+} from '@/domain/googleMeet/type/GoogleMeetSettingType';
 
 /**
  * state
  */
 interface GoogleMeetSettingContextState {
   isReady: boolean;
-  meetingId: string;
+  setting: GoogleMeetSetting;
 }
 
 const initGoogleMeetSettingContextState =
   (): GoogleMeetSettingContextState => ({
     isReady: false,
-    meetingId: '',
+    setting: initGoogleMeetSetting(),
   });
 
 /**
@@ -62,7 +66,9 @@ export const GoogleMeetSettingContextProvider = ({
 }: GoogleMeetSettingProviderProps) => {
   // state
   const [isReady, setIsReady] = useState<boolean>(defaultState?.isReady);
-  const [meetingId, setMeetingId] = useState<string>(defaultState?.meetingId);
+  const [setting, setSetting] = useState<GoogleMeetSetting>(
+    defaultState?.setting,
+  );
 
   /**
    * 設定をstateに反映する
@@ -78,16 +84,19 @@ export const GoogleMeetSettingContextProvider = ({
     // const path = url.pathname.split('/')[1];
     if (_match) {
       const _meetingId = _match[1];
-      setMeetingId(_meetingId);
+      setSetting({
+        ...setting,
+        meetingId: _meetingId,
+      });
     } else {
       console.log('Meeting ID not found');
     }
     setIsReady(true);
-  }, []);
+  }, [setting]);
 
   console.log('GoogleMeetSettingContext state', {
     isReady,
-    meetingId,
+    setting,
   });
 
   /**
@@ -96,7 +105,7 @@ export const GoogleMeetSettingContextProvider = ({
   const value: GoogleMeetSettingContextValues = {
     state: {
       isReady,
-      meetingId,
+      setting,
     },
     action: {
       setUp,

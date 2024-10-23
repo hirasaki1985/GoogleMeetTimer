@@ -10,7 +10,7 @@ interface FireBaseDBProps {
  * firebaseのRealTimeDatabaseの値のサブスクライブをする
  */
 export const useFireBaseDB = ({ path }: FireBaseDBProps) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any | null>(null);
 
   useEffect(() => {
     const dataRef = ref(firebaseDataBase, path); // Firebase Realtime Database内のパス
