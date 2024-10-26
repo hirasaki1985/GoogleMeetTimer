@@ -23,6 +23,10 @@ export class FirebaseDBRepository {
     path: string,
     data: object | number | string | boolean,
   ): Promise<void> {
+    console.log('FirebaseDBRepository write() ', {
+      path,
+      data,
+    });
     return await set(ref(this.db, path), data);
   }
 

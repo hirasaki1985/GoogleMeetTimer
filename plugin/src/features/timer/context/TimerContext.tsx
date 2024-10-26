@@ -3,14 +3,13 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from 'react';
-import { initTimerState, TimerState } from '@/domain/timer/type/TimerType';
-import dayjs from 'dayjs';
+import { initTimerState, TimerState } from '@/features/timer/type/TimerType';
 import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
-import { useFireBaseTimer } from '@/domain/timer/hook/useFireBaseTimer';
+import { useFireBaseTimer } from '@/features/timer/hook/useFireBaseTimer';
 import { useFirebaseDBWrite } from '@/domain/firebase/hooks/useFireBaseDB';
+import { timerHelperGetDBMeetingPath } from '@/features/timer/helper/TimerHelper';
 
 /**
  * state
@@ -88,7 +87,7 @@ export const TimerContextProvider = ({
 
   const initialize = useCallback(async () => {
     if (subscribeData == null) {
-      dbWrite(googleMeetSetting.meetingId, initTimerState());
+      dbWrite(timerHelperGetDBMeetingPath(googleMeetSetting), initTimerState());
     }
     if (!isReady) {
       setIsReady(true);

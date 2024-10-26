@@ -2,6 +2,8 @@ import { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { readFileSync } from 'node:fs';
+import * as path from 'node:path';
 
 export default defineConfig(({ mode }) => {
   // 環境ごとの .env ファイルのパスを指定
@@ -20,6 +22,11 @@ export default defineConfig(({ mode }) => {
       hmr: {
         port: 5173,
       },
+      https: {
+        key: readFileSync(path.resolve(__dirname, 'cert/localhost-key.pem')),
+        cert: readFileSync(path.resolve(__dirname, 'cert/localhost.pem')),
+      },
+      host: 'google-meet-timer.dev.to',
     },
     root: resolve(__dirname, 'src'),
     // plugins: [chromeExtension() as unknown as PluginOption],

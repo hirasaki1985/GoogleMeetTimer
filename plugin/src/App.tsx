@@ -4,7 +4,9 @@ import {
   useGoogleMeetSettingContext,
 } from './domain/googleMeet/context/GoogleMeetSettingContext';
 import { initializer } from '@/initializer';
-import { GoogleMeetTimerPage } from '@/pages/GoogleMeetTimerPage';
+import { RootRouter } from '@/router/RootRouter';
+import './global.css';
+import { AuthProvider } from '@/features/auth/context/AuthContext';
 
 export const AppContent = () => {
   const { state, action } = useGoogleMeetSettingContext();
@@ -20,7 +22,7 @@ export const AppContent = () => {
     return <div>loading...</div>;
   }
 
-  return <GoogleMeetTimerPage />;
+  return <RootRouter />;
 };
 
 export const App = () => {
@@ -35,8 +37,10 @@ export const App = () => {
   }
 
   return (
-    <GoogleMeetSettingContextProvider>
-      <AppContent />
-    </GoogleMeetSettingContextProvider>
+    <AuthProvider>
+      <GoogleMeetSettingContextProvider>
+        <AppContent />
+      </GoogleMeetSettingContextProvider>
+    </AuthProvider>
   );
 };

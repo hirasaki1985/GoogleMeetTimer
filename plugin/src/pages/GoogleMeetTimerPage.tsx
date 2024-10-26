@@ -3,7 +3,7 @@ import { useGoogleMeetSettingContext } from '@/domain/googleMeet/context/GoogleM
 import {
   TimerContextProvider,
   useTimerContext,
-} from '@/domain/timer/context/TimerContext';
+} from '@/features/timer/context/TimerContext';
 
 const GoogleMeetTimerPageContent = () => {
   const { state } = useGoogleMeetSettingContext();
