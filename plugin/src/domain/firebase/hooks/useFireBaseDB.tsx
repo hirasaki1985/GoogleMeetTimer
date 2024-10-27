@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { onValue, ref } from 'firebase/database';
 import { firebaseDataBase } from '@/domain/firebase/FirebaseClient';
 import { FirebaseDBRepository } from '@/domain/firebase/repositories/FirebaseDBRepository';
@@ -15,21 +15,46 @@ interface FireBaseDBProps {
   path: string;
 }
 
+interface FireBaseDBResult {
+  isSubscribeReady: boolean;
+  data: any;
+}
+
 /**
  * firebase RealTimeDatabase: 値のサブスクライブをする
  */
-export const useFireBaseDBSubscribe = ({ path }: FireBaseDBProps) => {
+export const useFireBaseDBSubscribe = ({
+  path,
+}: FireBaseDBProps): FireBaseDBResult => {
+  // state
+  const [isSubscribeReady, setIsSubscribeReady] = useState(false);
   const [data, setData] = useState<any | null>(null);
 
+  /**
+   * 更新を検知
+   */
   useEffect(() => {
     const dataRef = ref(firebaseDataBase, path); // Firebase Realtime Database内のパス
-    onValue(dataRef, (snapshot) => {
-      const fetchedData = snapshot.val();
-      setData(fetchedData);
-    });
-  }, [path]);
 
-  return { data };
+    /**
+     * 更新を検知した時に動作
+     */
+    onValue(dataRef, (_snapshot) => {
+      console.log('useFireBaseDBSubscribe onValue() _snapshot', _snapshot);
+      const _fetchedData = _snapshot.val();
+      setData(_fetchedData);
+
+      if (!isSubscribeReady) setIsSubscribeReady(true);
+    });
+  }, [path, isSubscribeReady]);
+
+  return useMemo<FireBaseDBResult>(
+    () => ({
+      data,
+      isSubscribeReady,
+    }),
+    [data, isSubscribeReady],
+  );
 };
 
 /**

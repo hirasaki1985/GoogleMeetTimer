@@ -7,6 +7,7 @@ import { useAuthContext } from '@/features/auth/context/AuthContext';
 export const RootRouter = () => {
   const { authState } = useAuthContext();
 
+  /*
   const viewPage = useMemo(() => {
     if (authState.user) {
       return <GoogleMeetTimerPage />;
@@ -17,7 +18,8 @@ export const RootRouter = () => {
 
   if (!authState.isReady) {
     return <div>loading</div>;
-  }
+  }*/
 
-  return <>{viewPage}</>;
+  // return <>{viewPage}</>;
+  return <GoogleMeetTimerPage />;
 };

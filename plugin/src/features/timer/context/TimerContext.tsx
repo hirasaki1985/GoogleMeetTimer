@@ -8,7 +8,10 @@ import React, {
 import { initTimerState, TimerState } from '@/features/timer/type/TimerType';
 import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
 import { useFireBaseTimer } from '@/features/timer/hook/useFireBaseTimer';
-import { useFirebaseDBWrite } from '@/domain/firebase/hooks/useFireBaseDB';
+import {
+  useFirebaseDBUpdate,
+  useFirebaseDBWrite,
+} from '@/domain/firebase/hooks/useFireBaseDB';
 import { timerHelperGetDBMeetingPath } from '@/features/timer/helper/TimerHelper';
 
 /**
@@ -75,33 +78,43 @@ export const TimerContextProvider = ({
 
   // hooks
   const dbWrite = useFirebaseDBWrite();
+  const dbUpdate = useFirebaseDBUpdate();
 
   // subscribe data
-  const subscribeData = useFireBaseTimer(googleMeetSetting);
-  // useEffect(() => {
-  //   if (subscribeData == null) return;
-  //
-  //   setTimerState(subscribeData);
-  // }, [subscribeData]);
-  console.log('TimeContext subscribeData', subscribeData);
+  const { isSubscribeReady, timeState } = useFireBaseTimer(googleMeetSetting);
 
+  /**
+   * 初期化を行う
+   */
   const initialize = useCallback(async () => {
-    if (subscribeData == null) {
-      dbWrite(timerHelperGetDBMeetingPath(googleMeetSetting), initTimerState());
+    try {
+      // not ready
+      if (!isSubscribeReady) return;
+
+      //
+      if (timeState == null) {
+        dbWrite(
+          timerHelperGetDBMeetingPath(googleMeetSetting),
+          initTimerState(),
+        );
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      if (!isReady) {
+        setIsReady(true);
+      }
     }
-    if (!isReady) {
-      setIsReady(true);
-    }
-  }, [subscribeData, googleMeetSetting]);
+  }, [isSubscribeReady, timeState]);
 
   /**
    * timeStateの設定を反映する
    */
   const updateTimeState = useCallback(
     (_timerState: TimerState) => {
-      // setTimerState(_timerState);
+      dbUpdate(timerHelperGetDBMeetingPath(googleMeetSetting), _timerState);
     },
-    [subscribeData],
+    [googleMeetSetting, timeState],
   );
 
   /**
@@ -109,19 +122,16 @@ export const TimerContextProvider = ({
    */
   const startTimer = useCallback(() => {
     // setTimerState({ ...timerState, startDateTime: dayjs().toISOString() });
-  }, [subscribeData]);
+  }, [timeState]);
 
   /**
    * タイマーを終了する
    */
   const stopTimer = useCallback(() => {
     // setTimerState({ ...timerState, startDateTime: null });
-  }, [subscribeData]);
+  }, [timeState]);
 
-  console.log('TimerContext state', {
-    isReady,
-    subscribeData,
-  });
+  console.log('TimeContext subscribeData', isSubscribeReady, timeState);
 
   /**
    * value
@@ -129,7 +139,7 @@ export const TimerContextProvider = ({
   const value: TimerContextValues = {
     timeState: {
       isReady,
-      timerState: subscribeData,
+      timerState: timeState,
     },
     timeAction: {
       initialize,

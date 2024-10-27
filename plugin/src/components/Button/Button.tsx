@@ -35,7 +35,8 @@ export const Button = memo(function Button({
         dark:bg-blue-600
         focus:ring-4 focus:ring-blue-300 
         hover:bg-blue-800 dark:focus:ring-blue-80 dark:hover:bg-blue-700
-        focus:outline-none ${Array.isArray(className) ? className.join(' ') : className}`}
+        focus:outline-none
+        ${Array.isArray(className) ? className.join(' ') : className}`}
       type={type}
       onClick={(_e) => {
         if (onClick) onClick(_e);
