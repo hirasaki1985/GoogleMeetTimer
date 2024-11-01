@@ -1,4 +1,11 @@
 # GoogleMeetTimer
+## 概要
+googleミートの参加者でタイマーを共有する。
+
+![image](https://github.com/user-attachments/assets/127bd4a7-bcef-40c1-bb4f-32374af95d4d)
+
+このタイマーの操作は本プラグインをインストールしている参加者全員で共有される。
+
 ## 1. 使い方
 ### 1-1. firebaseの登録
 1. fireabaseのプロジェクトを作成
@@ -7,8 +14,7 @@
 
 ### 1-2. ビルド
 1. 本リポジトリをgit cloneで取得
-2. 下記項目「3. 環境構築」に合わせて.envの値を設定
-   a. 1-1で取得したfirebaseConfigの値を設定する
+2. 下記項目「3. 環境構築」に合わせて.envの値を設定(1-1で取得したfirebaseConfigの値を設定する)
 4. 下記項目「5. ビルド」を実行
 5. zipディレクトリにzipファイルが作成されているのを確認
 6. zipファイルを解凍しておく
@@ -27,6 +33,11 @@
    
 ![image](https://github.com/user-attachments/assets/abf940e5-46a3-4c43-ab1d-fd7205968685)
 
+
+### 1-4. google meetにアクセス
+![image](https://github.com/user-attachments/assets/127bd4a7-bcef-40c1-bb4f-32374af95d4d)
+
+上記のタイマーが表示されていれば成功。
 
 ## 2. バージョン
 ```
@@ -69,7 +80,6 @@ $ pnpm dev
 
 ### アクセス
 [https://google-meet-timer.dev.to:5173/nvd-nnrc-ezt?authuser=0](https://google-meet-timer.dev.to:5173/nvd-nnrc-ezt?authuser=0)
-)
 
 ## 5. ビルド
 ```
