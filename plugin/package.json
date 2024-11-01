@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "test": "jest --runInBand --no-cache",
-    "build": "npm run build:vite",
-    "build:vite": "vite build"
+    "build": "pnpm build:clean && pnpm run build:vite && pnpm run build:css && pnpm run build:zip",
+    "build:clean": "rm -rf ./dist",
+    "build:vite": "vite build",
+    "build:css": "node updateManifest.js",
+    "build:zip": "zip -r zip/GoogleMeetTimer ./dist"
   },
   "keywords": [],
   "author": "",

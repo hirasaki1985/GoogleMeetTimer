@@ -26,4 +26,5 @@ lerna-debug.log*
 .env
 dist
 cert
+*GoogleMeetTimer*.zip
 

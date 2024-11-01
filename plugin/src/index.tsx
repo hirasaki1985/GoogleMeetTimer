@@ -2,8 +2,10 @@ import React from 'react';
 import { App } from './App';
 import { createRoot } from 'react-dom/client';
 
+const baseId = 'google-meet-timer';
+
 const appContainer = document.createElement('div');
-appContainer.id = 'my-extension-root';
+appContainer.id = baseId;
 document.body.appendChild(appContainer);
 
-const root = createRoot(document.getElementById('root')!).render(<App />);
+const root = createRoot(document.getElementById(baseId)!).render(<App />);

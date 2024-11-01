@@ -45,6 +45,7 @@ const GoogleMeetTimerPageContent = () => {
         onChangeTimerSetting={onChangeTimerSetting}
         globalTimerState={timeState.globalTimerState}
         onClickStartStopButton={timeAction.onChangeStartStopState}
+        draggableWindowClassName={'z-50'}
       />
     </div>
   );

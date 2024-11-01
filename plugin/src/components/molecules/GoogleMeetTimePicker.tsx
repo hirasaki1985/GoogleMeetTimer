@@ -23,6 +23,7 @@ export interface GoogleMeetTimePickerProps {
   onChangeTimerSetting: (time: string) => void;
   onClickStartStopButton: (start: boolean) => void;
   containerClassName?: string;
+  draggableWindowClassName?: string;
 }
 
 /**
@@ -33,6 +34,7 @@ export const GoogleMeetTimePicker = ({
   onChangeTimerSetting,
   onClickStartStopButton,
   containerClassName,
+  draggableWindowClassName,
 }: GoogleMeetTimePickerProps) => {
   // local state
   const [timerCurrentTime, setTimerCurrentTime] = useState<string>('');
@@ -97,7 +99,7 @@ export const GoogleMeetTimePicker = ({
 
   return (
     <div className={containerClassName}>
-      <DraggableWindow>
+      <DraggableWindow windowClassName={draggableWindowClassName}>
         {viewTime != null && viewTime !== '' ? (
           <div className={'flex justify-center items-center gap-2'}>
             <div>
