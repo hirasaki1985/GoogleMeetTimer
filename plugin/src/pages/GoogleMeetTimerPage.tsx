@@ -4,7 +4,7 @@ import {
   TimerContextProvider,
   useTimerContext,
 } from '@/features/timer/context/TimerContext';
-import { TimePicker } from '@/components/TimePicker';
+import { GoogleMeetTimePicker } from '@/components/molecules/GoogleMeetTimePicker';
 
 const GoogleMeetTimerPageContent = () => {
   const { state } = useGoogleMeetSettingContext();
@@ -25,14 +25,14 @@ const GoogleMeetTimerPageContent = () => {
    */
   const onChangeTimerSetting = useCallback(
     (_time: string) => {
-      if (timeState.timerState == null) return;
+      if (timeState.globalTimerState == null) return;
 
       timeAction.updateTimeState({
-        ...timeState.timerState,
+        ...timeState.globalTimerState,
         settingTime: _time,
       });
     },
-    [timeState.timerState],
+    [timeState.globalTimerState],
   );
 
   if (!timeState.isReady) {
@@ -41,7 +41,12 @@ const GoogleMeetTimerPageContent = () => {
 
   return (
     <div>
-      <TimePicker onChange={onChangeTimerSetting} />
+      <GoogleMeetTimePicker
+        onChangeTimerSetting={onChangeTimerSetting}
+        globalTimerState={timeState.globalTimerState}
+        localTimerState={timeState.localTimerState}
+        onClickStartStopButton={timeAction.onChangeStartStopState}
+      />
     </div>
   );
 };

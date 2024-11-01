@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/atoms/Button';
 import { useAuthContext } from '@/features/auth/context/AuthContext';
 
 export const LoginPage = () => {

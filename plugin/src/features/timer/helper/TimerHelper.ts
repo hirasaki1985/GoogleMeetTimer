@@ -1,10 +1,10 @@
-import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
+import { GlobalTimerState } from '@/features/timer/type/TimerType';
 
 /**
- * DB: google meet stateを管理するパスを取得する
+ * タイマーが開始しているかどうか
  */
-export const timerHelperGetDBMeetingPath = (
-  googleMeetSetting: GoogleMeetSetting,
-): string => {
-  return `/${googleMeetSetting.meetingId}`;
+export const timerHelperIsStart = (
+  globalTimerState: GlobalTimerState | null | undefined,
+): boolean => {
+  return globalTimerState?.startDateTime != null;
 };

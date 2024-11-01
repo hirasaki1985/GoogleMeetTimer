@@ -1,0 +1,26 @@
+.draggable-window {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    padding: 4px;
+
+    display: flex;
+    align-items: center;
+}
+
+.header {
+    color: #fff;
+    padding: 8px;
+    cursor: move; /* ドラッグ操作を示すカーソル */
+    font-weight: bold;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.content {
+    padding: 16px;
+}

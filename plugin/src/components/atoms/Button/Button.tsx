@@ -1,6 +1,7 @@
 import React, { MouseEvent, ReactNode, memo } from 'react';
-import { ButtonType } from '@/components/Button/type';
-import { Spinner } from '@/components/Spinner';
+import { ButtonType } from '@/components/atoms/Button/type';
+import { Spinner } from '@/components/atoms/Spinner';
+import { ButtonDesignPrimary } from '@/components/atoms/Button/ButtonDesign';
 
 interface ButtonProps {
   type?: ButtonType;
@@ -9,6 +10,7 @@ interface ButtonProps {
   isLoading?: boolean;
   disabled?: boolean;
   onClick?: (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void;
+  design?: string;
   className?: string | string[];
 }
 
@@ -19,6 +21,7 @@ export const Button = memo(function Button({
   isLoading,
   disabled,
   onClick,
+  design = ButtonDesignPrimary,
   className,
 }: ButtonProps) {
   if (isLoading) {
@@ -27,16 +30,7 @@ export const Button = memo(function Button({
 
   return (
     <button
-      className={`
-        text-white text-sm 
-        bg-blue-700
-        font-medium rounded-lg 
-        px-5 py-2.5 me-2 mb-2
-        dark:bg-blue-600
-        focus:ring-4 focus:ring-blue-300 
-        hover:bg-blue-800 dark:focus:ring-blue-80 dark:hover:bg-blue-700
-        focus:outline-none
-        ${Array.isArray(className) ? className.join(' ') : className}`}
+      className={`${design} ${Array.isArray(className) ? className.join(' ') : className}`}
       type={type}
       onClick={(_e) => {
         if (onClick) onClick(_e);

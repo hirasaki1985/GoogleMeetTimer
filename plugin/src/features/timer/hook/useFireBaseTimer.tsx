@@ -1,24 +1,24 @@
 import { useFireBaseDBSubscribe } from '@/domain/firebase/hooks/useFireBaseDB';
 import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
-import { TimerState } from '@/features/timer/type/TimerType';
-import { useMemo } from 'react';
+import { GlobalTimerState } from '@/features/timer/type/TimerType';
+import { googleMeetSettingGetDBMeetingPath } from '@/domain/googleMeet/helper/GoogleMeetSettingHelper';
 
 interface FireBaseTimerValue {
   isSubscribeReady: boolean;
-  timeState: TimerState | null;
+  globalTimerState: GlobalTimerState | null;
 }
 
 export const useFireBaseTimer = (
   googleMeetSetting: GoogleMeetSetting,
 ): FireBaseTimerValue => {
   const { data, isSubscribeReady } = useFireBaseDBSubscribe({
-    path: googleMeetSetting.meetingId,
+    path: googleMeetSettingGetDBMeetingPath(googleMeetSetting.meetingId),
   });
 
   if (!isSubscribeReady || data == null)
     return {
       isSubscribeReady,
-      timeState: null,
+      globalTimerState: null,
     };
 
   // return useMemo(
@@ -33,7 +33,7 @@ export const useFireBaseTimer = (
   // );
   return {
     isSubscribeReady,
-    timeState: {
+    globalTimerState: {
       settingTime: data?.settingTime ?? '',
       startDateTime: data?.startDateTime ?? null,
     },
