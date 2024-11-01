@@ -6,18 +6,14 @@ import React, {
   useState,
 } from 'react';
 import {
-  initLocalTimerState,
-  initGlobalTimerState,
-  LocalTimerState,
   GlobalTimerState,
+  initGlobalTimerState,
 } from '@/features/timer/type/TimerType';
 import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
-import { useFireBaseTimer } from '@/features/timer/hook/useFireBaseTimer';
 import {
-  useFirebaseDBUpdate,
-  useFirebaseDBWrite,
-} from '@/domain/firebase/hooks/useFireBaseDB';
-import { googleMeetSettingGetDBMeetingPath } from '@/domain/googleMeet/helper/GoogleMeetSettingHelper';
+  useFireBaseTimer,
+  useUpdateFireBaseTimer,
+} from '@/features/timer/hook/useFireBaseTimer';
 import dayjs from 'dayjs';
 
 /**
@@ -25,14 +21,12 @@ import dayjs from 'dayjs';
  */
 interface TimerContextState {
   isReady: boolean;
-  globalTimerState: GlobalTimerState | null;
-  localTimerState: LocalTimerState;
+  globalTimerState: GlobalTimerState;
 }
 
 const initTimerContextState = (): TimerContextState => ({
   isReady: false,
   globalTimerState: initGlobalTimerState(),
-  localTimerState: initLocalTimerState(),
 });
 
 /**
@@ -81,13 +75,9 @@ export const TimerContextProvider = ({
 }: TimerProviderProps) => {
   // state
   const [isReady, setIsReady] = useState<boolean>(defaultState?.isReady);
-  const [localTimerState, setLocalTimerState] = useState<LocalTimerState>(
-    initLocalTimerState(),
-  );
 
   // hooks
-  const dbWrite = useFirebaseDBWrite();
-  const dbUpdate = useFirebaseDBUpdate();
+  const dbUpdate = useUpdateFireBaseTimer();
 
   // subscribe data
   const { isSubscribeReady, globalTimerState } =
@@ -103,10 +93,7 @@ export const TimerContextProvider = ({
 
       //
       if (globalTimerState == null) {
-        dbWrite(
-          googleMeetSettingGetDBMeetingPath(googleMeetSetting?.meetingId),
-          initGlobalTimerState(),
-        );
+        dbUpdate(googleMeetSetting, initGlobalTimerState());
       }
     } catch (e) {
       console.error(e);
@@ -115,17 +102,14 @@ export const TimerContextProvider = ({
         setIsReady(true);
       }
     }
-  }, [isSubscribeReady, globalTimerState]);
+  }, [isSubscribeReady, googleMeetSetting, globalTimerState]);
 
   /**
    * timeStateの設定を反映する
    */
   const updateTimeState = useCallback(
     (_timerState: GlobalTimerState) => {
-      dbUpdate(
-        googleMeetSettingGetDBMeetingPath(googleMeetSetting?.meetingId),
-        _timerState,
-      );
+      dbUpdate(googleMeetSetting, _timerState);
     },
     [googleMeetSetting, globalTimerState],
   );
@@ -137,30 +121,25 @@ export const TimerContextProvider = ({
     /**
      * @param _start true = 開始する, false = 停止する
      */
-    (_start: boolean) => {
+    async (_start: boolean) => {
       console.log('TimeContext subscribeData onChangeStartStopState()', _start);
-      dbUpdate(
-        googleMeetSettingGetDBMeetingPath(googleMeetSetting?.meetingId),
-        {
-          ...globalTimerState,
-          startDateTime: _start ? dayjs().toISOString() : null,
-        },
-      );
+      await dbUpdate(googleMeetSetting, {
+        settingTime: globalTimerState?.settingTime ?? '',
+        startDateTime: _start ? dayjs().toISOString() : null,
+      });
     },
-    [googleMeetSetting?.meetingId, globalTimerState],
+    [googleMeetSetting, globalTimerState],
   );
 
   console.log('TimeContext subscribeData globalTimerState', globalTimerState);
-  console.log('TimeContext subscribeData localTimerState', localTimerState);
 
   /**
    * value
    */
   const value: TimerContextValues = {
     timeState: {
-      isReady,
-      globalTimerState,
-      localTimerState,
+      isReady: isReady && isSubscribeReady,
+      globalTimerState: globalTimerState ?? initGlobalTimerState(),
     },
     timeAction: {
       initialize,

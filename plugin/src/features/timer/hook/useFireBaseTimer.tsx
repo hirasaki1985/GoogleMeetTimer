@@ -1,12 +1,36 @@
-import { useFireBaseDBSubscribe } from '@/domain/firebase/hooks/useFireBaseDB';
+import {
+  useFireBaseDBSubscribe,
+  useFirebaseDBUpdate,
+  useFirebaseDBWrite,
+} from '@/domain/firebase/hooks/useFireBaseDB';
 import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
 import { GlobalTimerState } from '@/features/timer/type/TimerType';
 import { googleMeetSettingGetDBMeetingPath } from '@/domain/googleMeet/helper/GoogleMeetSettingHelper';
+import { useCallback } from 'react';
 
 interface FireBaseTimerValue {
   isSubscribeReady: boolean;
   globalTimerState: GlobalTimerState | null;
 }
+
+export const useUpdateFireBaseTimer = () => {
+  // hooks
+  const dbWrite = useFirebaseDBWrite();
+  const dbUpdate = useFirebaseDBUpdate();
+
+  return useCallback(
+    async (
+      googleMeetSetting: GoogleMeetSetting,
+      globalTimerState: GlobalTimerState,
+    ) => {
+      return await dbUpdate(
+        googleMeetSettingGetDBMeetingPath(googleMeetSetting?.meetingId),
+        globalTimerState,
+      );
+    },
+    [dbWrite, dbUpdate],
+  );
+};
 
 export const useFireBaseTimer = (
   googleMeetSetting: GoogleMeetSetting,

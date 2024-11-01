@@ -44,7 +44,6 @@ const GoogleMeetTimerPageContent = () => {
       <GoogleMeetTimePicker
         onChangeTimerSetting={onChangeTimerSetting}
         globalTimerState={timeState.globalTimerState}
-        localTimerState={timeState.localTimerState}
         onClickStartStopButton={timeAction.onChangeStartStopState}
       />
     </div>

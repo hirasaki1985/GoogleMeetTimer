@@ -42,6 +42,11 @@ $ pnpm dev
 )
 
 
+### ビルド
+```
+$ pnpm build
+```
+
 
 
 
