@@ -1,13 +1,19 @@
 # GoogleMeetTimer
 ## 1. 使い方
-### 1-1. ビルド
+### 1-1. firebaseの登録
+1. fireabaseのプロジェクトを作成
+2. 「Realtime Database」を有効にする
+3. 発行されたfirebaseConfigの値を控えておく
+
+### 1-2. ビルド
 1. 本リポジトリをgit cloneで取得
 2. 下記項目「3. 環境構築」に合わせて.envの値を設定
-3. 下記項目「5. ビルド」を実行
-4. zipディレクトリにzipファイルが作成されているのを確認
-5. zipファイルを解凍しておく
+   a. 1-1で取得したfirebaseConfigの値を設定する
+4. 下記項目「5. ビルド」を実行
+5. zipディレクトリにzipファイルが作成されているのを確認
+6. zipファイルを解凍しておく
 
-### 1-2. プラグインの登録
+### 1-3. プラグインの登録
 1. Google Chromeの右上のアイコンで「拡張機能を管理」をクリック
    
 ![image](https://github.com/user-attachments/assets/5244beb4-bd77-45f3-9ef7-6d0eb8f3e9c9)
