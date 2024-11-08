@@ -1,4 +1,7 @@
-import { DraggableWindow } from '@/components/atoms/DraggableWindow';
+import {
+  DraggableWindow,
+  DraggableWindowPosition,
+} from '@/components/atoms/DraggableWindow';
 import { TimePicker } from '@/components/atoms/TimePicker';
 import React, {
   useCallback,
@@ -8,7 +11,10 @@ import React, {
   useState,
 } from 'react';
 import { Button } from '@/components/atoms/Button';
-import { GlobalTimerState } from '@/features/timer/type/TimerType';
+import {
+  GlobalTimerState,
+  LocalTimerState,
+} from '@/features/timer/type/TimerType';
 import {
   timeHelperGetRestTime,
   timerHelperIsStart,
@@ -20,8 +26,10 @@ import { Spinner } from '@/components/atoms/Spinner';
  */
 export interface GoogleMeetTimePickerProps {
   globalTimerState: GlobalTimerState | null;
+  localTimerState: LocalTimerState;
   onChangeTimerSetting: (time: string) => void;
   onClickStartStopButton: (start: boolean) => void;
+  onDragStop: (position: DraggableWindowPosition) => void;
   containerClassName?: string;
   draggableWindowClassName?: string;
 }
@@ -31,21 +39,38 @@ export interface GoogleMeetTimePickerProps {
  */
 export const GoogleMeetTimePicker = ({
   globalTimerState,
+  localTimerState,
   onChangeTimerSetting,
   onClickStartStopButton,
+  onDragStop,
   containerClassName,
   draggableWindowClassName,
 }: GoogleMeetTimePickerProps) => {
-  // local state
-  const [timerCurrentTime, setTimerCurrentTime] = useState<string>('');
+  // current time
+  const [currentTime, setCurrentTime] = useState<string>('');
+  useEffect(() => {
+    setCurrentTime(globalTimerState?.settingTime ?? '');
+  }, [globalTimerState?.settingTime]);
 
   // timer
   const intervalRef = useRef<number | null>(null); // インターバルIDを保持
 
+  /**
+   * 開始中かどうか
+   */
   const isStart = useMemo<boolean>(
     () => timerHelperIsStart(globalTimerState),
     [globalTimerState?.startDateTime],
   );
+
+  /**
+   * タイマーをリセットする
+   */
+  const resetTimer = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  }, [intervalRef]);
 
   /**
    * タイマー管理
@@ -60,7 +85,7 @@ export const GoogleMeetTimePicker = ({
     // 1秒ごとにカウントを減らすインターバルを開始
     intervalRef.current = setInterval(() => {
       const _displayTime = timeHelperGetRestTime(globalTimerState);
-      setTimerCurrentTime(_displayTime);
+      setCurrentTime(_displayTime);
     }, 1000);
 
     // コンポーネントのアンマウント時にインターバルをクリア
@@ -71,20 +96,10 @@ export const GoogleMeetTimePicker = ({
 
   // カウントが0以下になったらインターバルをクリア
   useEffect(() => {
-    if (timerCurrentTime === '00:00') {
+    if (currentTime === '00:00') {
       resetTimer();
     }
-  }, [timerCurrentTime]);
-
-  /**
-   * タイマーをリセットする
-   */
-  const resetTimer = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    setTimerCurrentTime('');
-  }, [intervalRef]);
+  }, [currentTime]);
 
   /**
    * 表示する時間を決める
@@ -92,18 +107,26 @@ export const GoogleMeetTimePicker = ({
   const viewTime = useMemo(
     () =>
       isStart
-        ? (timerCurrentTime ?? globalTimerState?.settingTime)
+        ? (currentTime ?? globalTimerState?.settingTime)
         : (globalTimerState?.settingTime ?? ''),
-    [timerCurrentTime, globalTimerState?.settingTime],
+    [isStart, currentTime, globalTimerState?.settingTime],
   );
 
   return (
     <div className={containerClassName}>
-      <DraggableWindow windowClassName={draggableWindowClassName}>
+      <DraggableWindow
+        windowClassName={draggableWindowClassName}
+        position={localTimerState.position}
+        onDragStop={onDragStop}
+      >
         {viewTime != null && viewTime !== '' ? (
           <div className={'flex justify-center items-center gap-2'}>
             <div>
-              <TimePicker value={viewTime} onChange={onChangeTimerSetting} />
+              <TimePicker
+                value={viewTime}
+                onChange={onChangeTimerSetting}
+                readonly={isStart}
+              />
             </div>
             <div>
               <Button

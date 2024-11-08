@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   GoogleMeetSettingContextProvider,
   useGoogleMeetSettingContext,
-} from './domain/googleMeet/context/GoogleMeetSettingContext';
+} from './common/googleMeet/context/GoogleMeetSettingContext';
 import { initializer } from '@/initializer';
 import { RootRouter } from '@/router/RootRouter';
 import './global.css';

@@ -14,8 +14,8 @@ import {
   onAuthStateChanged,
   signInWithRedirect,
 } from 'firebase/auth';
-import { useFirebaseAuth } from '@/domain/firebase/hooks/useFirebaseAuth';
-import { firebaseGoogleProvider } from '@/domain/firebase/FirebaseClient';
+import { useFirebaseAuth } from '@/common/firebase/hooks/useFirebaseAuth';
+import { firebaseGoogleProvider } from '@/common/firebase/FirebaseClient';
 
 /**
  * state

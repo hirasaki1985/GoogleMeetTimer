@@ -8,7 +8,7 @@ import React, {
 import {
   GoogleMeetSetting,
   initGoogleMeetSetting,
-} from '@/domain/googleMeet/type/GoogleMeetSettingType';
+} from '@/common/googleMeet/type/GoogleMeetSettingType';
 
 /**
  * state

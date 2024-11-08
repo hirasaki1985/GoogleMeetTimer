@@ -1,4 +1,8 @@
 import { timerSettingTimeDefaultMinutes } from '@/features/timer/const/TimerConfig';
+import {
+  draggableWindowDefaultPosition,
+  DraggableWindowPosition,
+} from '@/components/atoms/DraggableWindow';
 
 /**
  * 参加者全体で共有する状態
@@ -10,4 +14,14 @@ export interface GlobalTimerState {
 export const initGlobalTimerState = (): GlobalTimerState => ({
   settingTime: timerSettingTimeDefaultMinutes,
   startDateTime: null,
+});
+
+/**
+ * 個別の状態
+ */
+export interface LocalTimerState {
+  position: DraggableWindowPosition;
+}
+export const initLocalTimerState = (): LocalTimerState => ({
+  position: draggableWindowDefaultPosition,
 });

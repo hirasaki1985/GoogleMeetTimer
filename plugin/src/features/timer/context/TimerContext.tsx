@@ -3,18 +3,27 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from 'react';
 import {
   GlobalTimerState,
   initGlobalTimerState,
+  initLocalTimerState,
+  LocalTimerState,
 } from '@/features/timer/type/TimerType';
-import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
+import { GoogleMeetSetting } from '@/common/googleMeet/type/GoogleMeetSettingType';
 import {
   useFireBaseTimer,
   useUpdateFireBaseTimer,
 } from '@/features/timer/hook/useFireBaseTimer';
 import dayjs from 'dayjs';
+import { timerHelperIsStart } from '@/features/timer/helper/TimerHelper';
+import {
+  useLocalTimerStateGet,
+  useLocalTimerStateUpdate,
+} from '@/features/timer/hook/useLocalTimerState';
+import { DraggableWindowPosition } from '@/components/atoms/DraggableWindow';
 
 /**
  * state
@@ -22,11 +31,13 @@ import dayjs from 'dayjs';
 interface TimerContextState {
   isReady: boolean;
   globalTimerState: GlobalTimerState;
+  localTimeState: LocalTimerState;
 }
 
 const initTimerContextState = (): TimerContextState => ({
   isReady: false,
   globalTimerState: initGlobalTimerState(),
+  localTimeState: initLocalTimerState(),
 });
 
 /**
@@ -36,11 +47,13 @@ export interface TimerContextAction {
   initialize: () => void;
   updateTimeState: (timerState: GlobalTimerState) => void;
   onChangeStartStopState: (start: boolean) => void;
+  onDragStopTimer: (position: DraggableWindowPosition) => void;
 }
 export const initTimerContextAction = (): TimerContextAction => ({
   initialize: () => {},
   updateTimeState: () => {},
   onChangeStartStopState: () => {},
+  onDragStopTimer: () => {},
 });
 
 /**
@@ -78,20 +91,30 @@ export const TimerContextProvider = ({
 
   // hooks
   const dbUpdate = useUpdateFireBaseTimer();
+  const localTimerStateGet = useLocalTimerStateGet();
+  const localTimerStateUpdate = useLocalTimerStateUpdate();
 
   // subscribe data
   const { isSubscribeReady, globalTimerState } =
     useFireBaseTimer(googleMeetSetting);
 
+  // local time state
+  const [localTimeState, setLocalTimeState] = useState<
+    LocalTimerState | undefined
+  >(defaultState?.localTimeState);
+
   /**
    * 初期化を行う
    */
   const initialize = useCallback(async () => {
+    // local stateの更新
+    setLocalTimeState(localTimerStateGet());
+
     try {
       // not ready
       if (!isSubscribeReady) return;
 
-      //
+      // global stateの更新
       if (globalTimerState == null) {
         dbUpdate(googleMeetSetting, initGlobalTimerState());
       }
@@ -131,7 +154,21 @@ export const TimerContextProvider = ({
     [googleMeetSetting, globalTimerState],
   );
 
-  console.log('TimeContext subscribeData globalTimerState', globalTimerState);
+  /**
+   * localTimeState: タイマーがドラッグされた時
+   */
+  const onDragStopTimer = useCallback(
+    (position: DraggableWindowPosition) => {
+      console.log('TimeContext onDragStopTimer() position', position);
+      localTimerStateUpdate({
+        position,
+      });
+    },
+    [localTimeState],
+  );
+
+  console.log('TimeContext globalTimerState', globalTimerState);
+  console.log('TimeContext localTimeState', localTimeState);
 
   /**
    * value
@@ -140,11 +177,13 @@ export const TimerContextProvider = ({
     timeState: {
       isReady: isReady && isSubscribeReady,
       globalTimerState: globalTimerState ?? initGlobalTimerState(),
+      localTimeState: localTimeState ?? initLocalTimerState(),
     },
     timeAction: {
       initialize,
       updateTimeState,
       onChangeStartStopState,
+      onDragStopTimer,
     },
   };
 

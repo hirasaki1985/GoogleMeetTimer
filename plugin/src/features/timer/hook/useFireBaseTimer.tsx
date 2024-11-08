@@ -2,10 +2,10 @@ import {
   useFireBaseDBSubscribe,
   useFirebaseDBUpdate,
   useFirebaseDBWrite,
-} from '@/domain/firebase/hooks/useFireBaseDB';
-import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
+} from '@/common/firebase/hooks/useFireBaseDB';
+import { GoogleMeetSetting } from '@/common/googleMeet/type/GoogleMeetSettingType';
 import { GlobalTimerState } from '@/features/timer/type/TimerType';
-import { googleMeetSettingGetDBMeetingPath } from '@/domain/googleMeet/helper/GoogleMeetSettingHelper';
+import { googleMeetSettingGetDBMeetingPath } from '@/common/googleMeet/helper/GoogleMeetSettingHelper';
 import { useCallback } from 'react';
 
 interface FireBaseTimerValue {
@@ -13,6 +13,9 @@ interface FireBaseTimerValue {
   globalTimerState: GlobalTimerState | null;
 }
 
+/**
+ * firebaseのDBを更新する
+ */
 export const useUpdateFireBaseTimer = () => {
   // hooks
   const dbWrite = useFirebaseDBWrite();
@@ -32,6 +35,9 @@ export const useUpdateFireBaseTimer = () => {
   );
 };
 
+/**
+ * firebaseのDBをサブスクライブする
+ */
 export const useFireBaseTimer = (
   googleMeetSetting: GoogleMeetSetting,
 ): FireBaseTimerValue => {
@@ -45,16 +51,6 @@ export const useFireBaseTimer = (
       globalTimerState: null,
     };
 
-  // return useMemo(
-  //   () => ({
-  //     isSubscribeReady,
-  //     timeState: {
-  //       settingTime: data?.settingTime ?? '',
-  //       startDateTime: data?.startDateTime ?? null,
-  //     },
-  //   }),
-  //   [isSubscribeReady, data],
-  // );
   return {
     isSubscribeReady,
     globalTimerState: {

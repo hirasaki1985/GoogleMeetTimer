@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { useGoogleMeetSettingContext } from '@/domain/googleMeet/context/GoogleMeetSettingContext';
+import { useGoogleMeetSettingContext } from '@/common/googleMeet/context/GoogleMeetSettingContext';
 import {
   TimerContextProvider,
   useTimerContext,
@@ -7,11 +7,7 @@ import {
 import { GoogleMeetTimePicker } from '@/components/molecules/GoogleMeetTimePicker';
 
 const GoogleMeetTimerPageContent = () => {
-  const { state } = useGoogleMeetSettingContext();
   const { timeState, timeAction } = useTimerContext();
-
-  console.log('GoogleMeetTimerPageContent state', state);
-  console.log('GoogleMeetTimerPageContent timeState', timeState);
 
   /**
    * 初回ロード
@@ -42,9 +38,11 @@ const GoogleMeetTimerPageContent = () => {
   return (
     <div>
       <GoogleMeetTimePicker
-        onChangeTimerSetting={onChangeTimerSetting}
         globalTimerState={timeState.globalTimerState}
+        localTimerState={timeState.localTimeState}
+        onChangeTimerSetting={onChangeTimerSetting}
         onClickStartStopButton={timeAction.onChangeStartStopState}
+        onDragStop={timeAction.onDragStopTimer}
         draggableWindowClassName={'z-50'}
       />
     </div>

@@ -7,6 +7,8 @@ interface TimePickerProps {
   min?: string | number;
   max?: string | number;
   required?: boolean;
+  disabled?: boolean;
+  readonly?: boolean;
   labelClassName?: string[] | string;
   inputClassName?: string[] | string;
   onChange?: (value: string) => void;
@@ -19,6 +21,8 @@ export const TimePicker = memo(function TimePicker({
   min,
   max,
   required,
+  disabled,
+  readonly,
   labelClassName = '',
   inputClassName = '',
   onChange,
@@ -44,9 +48,9 @@ export const TimePicker = memo(function TimePicker({
             viewBox="0 0 24 24"
           >
             <path
-              fill-rule="evenodd"
+              // fill-rule="evenodd"
               d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-              clip-rule="evenodd"
+              // clip-rule="evenodd"
             />
           </svg>
         </div>
@@ -64,6 +68,8 @@ export const TimePicker = memo(function TimePicker({
           max={max}
           value={value}
           required={required}
+          disabled={disabled}
+          readOnly={readonly}
           onChange={(_e) => {
             if (_e.target.value && onChange) {
               onChange(_e.target.value);

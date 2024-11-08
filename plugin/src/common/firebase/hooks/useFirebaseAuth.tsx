@@ -1,4 +1,4 @@
-import { firebaseAuth } from '@/domain/firebase/FirebaseClient';
+import { firebaseAuth } from '@/common/firebase/FirebaseClient';
 
 export const useFirebaseAuth = () => {
   return firebaseAuth;

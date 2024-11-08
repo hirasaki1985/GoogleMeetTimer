@@ -1,5 +1,3 @@
-import { GoogleMeetSetting } from '@/domain/googleMeet/type/GoogleMeetSettingType';
-
 /**
  * const
  */
