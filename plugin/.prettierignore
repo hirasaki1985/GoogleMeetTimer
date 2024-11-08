@@ -1,0 +1,13 @@
+# Ignore artifacts:
+node_modules
+package-lock.json
+.eslintrc.json
+public
+src/setupTests.ts
+src/openapi
+craco.config.js
+jest.config.js
+next.config.js
+next-env.d.ts
+.swc
+coverage

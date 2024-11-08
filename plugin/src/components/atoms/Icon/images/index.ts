@@ -1,1 +1,1 @@
-export * from './DraggableIcon';
+export * from './DraggableIcon'

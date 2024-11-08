@@ -1,66 +1,61 @@
-import React, { useCallback, useEffect } from 'react';
-import { useGoogleMeetSettingContext } from '@/domain/googleMeet/context/GoogleMeetSettingContext';
-import {
-  TimerContextProvider,
-  useTimerContext,
-} from '@/features/timer/context/TimerContext';
-import { GoogleMeetTimePicker } from '@/components/molecules/GoogleMeetTimePicker';
+import React, { useCallback, useEffect } from 'react'
+import { useGoogleMeetSettingContext } from '@/common/googleMeet/context/GoogleMeetSettingContext'
+import { TimerContextProvider, useTimerContext } from '@/features/timer/context/TimerContext'
+import { GoogleMeetTimePicker } from '@/components/molecules/GoogleMeetTimePicker'
 
 const GoogleMeetTimerPageContent = () => {
-  const { state } = useGoogleMeetSettingContext();
-  const { timeState, timeAction } = useTimerContext();
-
-  console.log('GoogleMeetTimerPageContent state', state);
-  console.log('GoogleMeetTimerPageContent timeState', timeState);
+  const { timeState, timeAction } = useTimerContext()
 
   /**
    * 初回ロード
    */
   useEffect(() => {
-    timeAction.initialize();
-  }, []);
+    timeAction.initialize()
+  }, [])
 
   /**
    * タイマーの時間が変更された時
    */
   const onChangeTimerSetting = useCallback(
     (_time: string) => {
-      if (timeState.globalTimerState == null) return;
+      if (timeState.globalTimerState == null) return
 
       timeAction.updateTimeState({
         ...timeState.globalTimerState,
         settingTime: _time,
-      });
+      })
     },
     [timeState.globalTimerState],
-  );
+  )
 
   if (!timeState.isReady) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   return (
     <div>
       <GoogleMeetTimePicker
-        onChangeTimerSetting={onChangeTimerSetting}
         globalTimerState={timeState.globalTimerState}
+        localTimerState={timeState.localTimeState}
+        onChangeTimerSetting={onChangeTimerSetting}
         onClickStartStopButton={timeAction.onChangeStartStopState}
+        onDragStop={timeAction.onDragStopTimer}
         draggableWindowClassName={'z-50'}
       />
     </div>
-  );
-};
+  )
+}
 
 export const GoogleMeetTimerPage = () => {
-  const { state } = useGoogleMeetSettingContext();
+  const { googleMeetSettingState } = useGoogleMeetSettingContext()
 
-  if (!state.isReady) {
-    return <div>loading...</div>;
+  if (!googleMeetSettingState.isReady) {
+    return <div>loading...</div>
   }
 
   return (
-    <TimerContextProvider googleMeetSetting={state.setting}>
+    <TimerContextProvider googleMeetSetting={googleMeetSettingState.setting}>
       <GoogleMeetTimerPageContent />
     </TimerContextProvider>
-  );
-};
+  )
+}

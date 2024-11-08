@@ -1,1 +1,1 @@
-export const timerSettingTimeDefaultMinutes = '03:00';
+export const timerSettingTimeDefaultMinutes = '03:00'

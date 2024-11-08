@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from 'react'
 
-import { GoogleMeetTimerPage } from '@/pages/GoogleMeetTimerPage';
-import { LoginPage } from '@/pages/LoginPage';
-import { useAuthContext } from '@/features/auth/context/AuthContext';
+import { GoogleMeetTimerPage } from '@/pages/GoogleMeetTimerPage'
+import { LoginPage } from '@/pages/LoginPage'
+import { useAuthContext } from '@/features/auth/context/AuthContext'
 
 export const RootRouter = () => {
-  const { authState } = useAuthContext();
+  const { authState } = useAuthContext()
 
   /*
   const viewPage = useMemo(() => {
@@ -21,5 +21,5 @@ export const RootRouter = () => {
   }*/
 
   // return <>{viewPage}</>;
-  return <GoogleMeetTimerPage />;
-};
+  return <GoogleMeetTimerPage />
+}

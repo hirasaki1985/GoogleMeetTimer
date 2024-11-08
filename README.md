@@ -19,6 +19,11 @@ googleミートの参加者でタイマーを共有する。
 5. zipディレクトリにzipファイルが作成されているのを確認
 6. zipファイルを解凍しておく
 
+#### .envの値について
+`VITE_APP_WHITE_LIST`でタイマーを表示するミーティングIDをカンマ区切りで設定できる。
+もし`aaa-aaaa-aaa,bbb-bbbb-bbb,ccc*`と設定すれば、`aaa-aaaa-aaa,bbb-bbbb-bbb,頭がccc`のミーティングIDが対象となる。
+`VITE_APP_WHITE_LIST=*`とすれば全てのミーティングIDで表示されるようになる。
+
 ### 1-3. プラグインの登録
 1. Google Chromeの右上のアイコンで「拡張機能を管理」をクリック
    

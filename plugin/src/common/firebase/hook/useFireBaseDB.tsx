@@ -1,52 +1,50 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { onValue, ref } from 'firebase/database';
-import { firebaseDataBase } from '@/domain/firebase/FirebaseClient';
-import { FirebaseDBRepository } from '@/domain/firebase/repositories/FirebaseDBRepository';
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { onValue, ref } from 'firebase/database'
+import { firebaseDataBase } from '@/common/firebase/FirebaseClient'
+import { FirebaseDBRepository } from '@/common/firebase/repository/FirebaseDBRepository'
 
 /**
  * const
  */
-const dbRepository = new FirebaseDBRepository(firebaseDataBase);
+const dbRepository = new FirebaseDBRepository(firebaseDataBase)
 
 /**
  * props
  */
 interface FireBaseDBProps {
-  path: string;
+  path: string
 }
 
 interface FireBaseDBResult {
-  isSubscribeReady: boolean;
-  data: any;
+  isSubscribeReady: boolean
+  data: any
 }
 
 /**
  * firebase RealTimeDatabase: 値のサブスクライブをする
  */
-export const useFireBaseDBSubscribe = ({
-  path,
-}: FireBaseDBProps): FireBaseDBResult => {
+export const useFireBaseDBSubscribe = ({ path }: FireBaseDBProps): FireBaseDBResult => {
   // state
-  const [isSubscribeReady, setIsSubscribeReady] = useState(false);
-  const [data, setData] = useState<any | null>(null);
+  const [isSubscribeReady, setIsSubscribeReady] = useState(false)
+  const [data, setData] = useState<any | null>(null)
 
   /**
    * 更新を検知
    */
   useEffect(() => {
-    const dataRef = ref(firebaseDataBase, path); // Firebase Realtime Database内のパス
+    const dataRef = ref(firebaseDataBase, path) // Firebase Realtime Database内のパス
 
     /**
      * 更新を検知した時に動作
      */
     onValue(dataRef, (_snapshot) => {
-      console.log('useFireBaseDBSubscribe onValue() _snapshot', _snapshot);
-      const _fetchedData = _snapshot.val();
-      setData(_fetchedData);
+      console.log('useFireBaseDBSubscribe onValue() _snapshot', _snapshot)
+      const _fetchedData = _snapshot.val()
+      setData(_fetchedData)
 
-      if (!isSubscribeReady) setIsSubscribeReady(true);
-    });
-  }, [path, isSubscribeReady]);
+      if (!isSubscribeReady) setIsSubscribeReady(true)
+    })
+  }, [path, isSubscribeReady])
 
   return useMemo<FireBaseDBResult>(
     () => ({
@@ -54,8 +52,8 @@ export const useFireBaseDBSubscribe = ({
       isSubscribeReady,
     }),
     [data, isSubscribeReady],
-  );
-};
+  )
+}
 
 /**
  * firebase RealTimeDatabase: 情報を書き込む
@@ -63,11 +61,11 @@ export const useFireBaseDBSubscribe = ({
 export const useFirebaseDBWrite = () => {
   return useCallback(
     async (path: string, data: object | number | string | boolean) => {
-      return dbRepository.write(path, data);
+      return dbRepository.write(path, data)
     },
     [dbRepository],
-  );
-};
+  )
+}
 
 /**
  * firebase RealTimeDatabase: 情報を部分更新する
@@ -75,11 +73,11 @@ export const useFirebaseDBWrite = () => {
 export const useFirebaseDBUpdate = () => {
   return useCallback(
     async (path: string, data: object) => {
-      return dbRepository.update(path, data);
+      return dbRepository.update(path, data)
     },
     [dbRepository],
-  );
-};
+  )
+}
 
 /**
  * firebase RealTimeDatabase: 情報を追加する
@@ -87,11 +85,11 @@ export const useFirebaseDBUpdate = () => {
 export const useFirebaseDBPush = () => {
   return useCallback(
     async (path: string, data: object | number | string | boolean) => {
-      return dbRepository.push(path, data);
+      return dbRepository.push(path, data)
     },
     [dbRepository],
-  );
-};
+  )
+}
 
 /**
  * firebase RealTimeDatabase: 情報を削除する
@@ -99,8 +97,8 @@ export const useFirebaseDBPush = () => {
 export const useFirebaseDBDelete = () => {
   return useCallback(
     async (path: string) => {
-      return dbRepository.remove(path);
+      return dbRepository.remove(path)
     },
     [dbRepository],
-  );
-};
+  )
+}
