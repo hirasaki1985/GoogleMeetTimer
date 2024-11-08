@@ -5,11 +5,11 @@ import { GlobalTimerState } from '@/features/timer/type/TimerType'
 const now = '2024-11-01T02:00:00.000Z'
 
 describe('timeHelperGetRestTime', () => {
-  it("globalTimerStateがnullの場合は'00:00'を返すべき", () => {
+  it('globalTimerStateがnullの場合は 00:00 を返すべき', () => {
     expect(timeHelperGetRestTime(null)).toBe('00:00')
   })
 
-  it("settingTimeが提供されていない場合は'00:00'を返すべき", () => {
+  it('settingTimeが提供されていない場合は 00:00 を返すべき', () => {
     const state: GlobalTimerState = {
       settingTime: '',
       startDateTime: null,

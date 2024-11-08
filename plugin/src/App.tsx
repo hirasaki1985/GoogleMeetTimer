@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   GoogleMeetSettingContextProvider,
   useGoogleMeetSettingContext,
@@ -11,6 +11,7 @@ import {
   ApplicationSettingContextProvider,
   useApplicationSettingContext,
 } from '@/features/application/context/ApplicationContext'
+import { applicationHelperIsMatchWhiteList } from '@/features/application/helper/ApplicationHelper'
 
 export const AppContent = () => {
   const { applicationState, applicationAction } = useApplicationSettingContext()
@@ -24,8 +25,24 @@ export const AppContent = () => {
     googleMeetSettingAction.setUp()
   }, [])
 
+  /**
+   * タイマーを表示するかどうか
+   */
+  const isShowTimer = useMemo<boolean>(
+    () =>
+      applicationHelperIsMatchWhiteList(
+        applicationState.setting.whiteList,
+        googleMeetSettingState.setting.meetingId,
+      ),
+    [applicationState.setting.whiteList, googleMeetSettingState.setting.meetingId],
+  )
+
   if (!applicationState.isReady || !googleMeetSettingState.isReady) {
     return <div>loading...</div>
+  }
+
+  if (!isShowTimer) {
+    return <div />
   }
 
   return <RootRouter />
