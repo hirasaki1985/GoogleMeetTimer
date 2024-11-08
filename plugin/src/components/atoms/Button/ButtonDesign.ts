@@ -7,4 +7,4 @@ export const ButtonDesignPrimary = `
         hover:bg-blue-800 dark:focus:ring-blue-80 dark:hover:bg-blue-700
         focus:outline-none
         active:bg-blue-500
-        `;
+        `

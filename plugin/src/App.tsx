@@ -1,46 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   GoogleMeetSettingContextProvider,
   useGoogleMeetSettingContext,
-} from './common/googleMeet/context/GoogleMeetSettingContext';
-import { initializer } from '@/initializer';
-import { RootRouter } from '@/router/RootRouter';
-import './global.css';
-import { AuthProvider } from '@/features/auth/context/AuthContext';
+} from './common/googleMeet/context/GoogleMeetSettingContext'
+import { initializer } from '@/initializer'
+import { RootRouter } from '@/router/RootRouter'
+import './global.css'
+import { AuthProvider } from '@/features/auth/context/AuthContext'
+import {
+  ApplicationSettingContextProvider,
+  useApplicationSettingContext,
+} from '@/features/application/context/ApplicationContext'
 
 export const AppContent = () => {
-  const { state, action } = useGoogleMeetSettingContext();
+  const { applicationState, applicationAction } = useApplicationSettingContext()
+  const { googleMeetSettingState, googleMeetSettingAction } = useGoogleMeetSettingContext()
 
   /**
    * 初回実行
    */
   useEffect(() => {
-    action.setUp();
-  }, []);
+    applicationAction.setUp()
+    googleMeetSettingAction.setUp()
+  }, [])
 
-  if (!state.isReady) {
-    return <div>loading...</div>;
+  if (!applicationState.isReady || !googleMeetSettingState.isReady) {
+    return <div>loading...</div>
   }
 
-  return <RootRouter />;
-};
+  return <RootRouter />
+}
 
 export const App = () => {
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(false)
   useEffect(() => {
-    initializer();
-    setIsReady(true);
-  }, []);
+    initializer()
+    setIsReady(true)
+  }, [])
 
   if (!isReady) {
-    return <div>loading...</div>;
+    return <div>loading...</div>
   }
 
   return (
-    <AuthProvider>
-      <GoogleMeetSettingContextProvider>
-        <AppContent />
-      </GoogleMeetSettingContextProvider>
-    </AuthProvider>
-  );
-};
+    <ApplicationSettingContextProvider>
+      <AuthProvider>
+        <GoogleMeetSettingContextProvider>
+          <AppContent />
+        </GoogleMeetSettingContextProvider>
+      </AuthProvider>
+    </ApplicationSettingContextProvider>
+  )
+}

@@ -1,2 +1,2 @@
-export * from './DraggableWindow';
-export * from './DraggableWindowType';
+export * from './DraggableWindow'
+export * from './DraggableWindowType'

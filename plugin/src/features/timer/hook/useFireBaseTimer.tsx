@@ -2,15 +2,15 @@ import {
   useFireBaseDBSubscribe,
   useFirebaseDBUpdate,
   useFirebaseDBWrite,
-} from '@/common/firebase/hooks/useFireBaseDB';
-import { GoogleMeetSetting } from '@/common/googleMeet/type/GoogleMeetSettingType';
-import { GlobalTimerState } from '@/features/timer/type/TimerType';
-import { googleMeetSettingGetDBMeetingPath } from '@/common/googleMeet/helper/GoogleMeetSettingHelper';
-import { useCallback } from 'react';
+} from '@/common/firebase/hook/useFireBaseDB'
+import { GoogleMeetSetting } from '@/common/googleMeet/type/GoogleMeetSettingType'
+import { GlobalTimerState } from '@/features/timer/type/TimerType'
+import { googleMeetSettingGetDBMeetingPath } from '@/common/googleMeet/helper/GoogleMeetSettingHelper'
+import { useCallback } from 'react'
 
 interface FireBaseTimerValue {
-  isSubscribeReady: boolean;
-  globalTimerState: GlobalTimerState | null;
+  isSubscribeReady: boolean
+  globalTimerState: GlobalTimerState | null
 }
 
 /**
@@ -18,38 +18,33 @@ interface FireBaseTimerValue {
  */
 export const useUpdateFireBaseTimer = () => {
   // hooks
-  const dbWrite = useFirebaseDBWrite();
-  const dbUpdate = useFirebaseDBUpdate();
+  const dbWrite = useFirebaseDBWrite()
+  const dbUpdate = useFirebaseDBUpdate()
 
   return useCallback(
-    async (
-      googleMeetSetting: GoogleMeetSetting,
-      globalTimerState: GlobalTimerState,
-    ) => {
+    async (googleMeetSetting: GoogleMeetSetting, globalTimerState: GlobalTimerState) => {
       return await dbUpdate(
         googleMeetSettingGetDBMeetingPath(googleMeetSetting?.meetingId),
         globalTimerState,
-      );
+      )
     },
     [dbWrite, dbUpdate],
-  );
-};
+  )
+}
 
 /**
  * firebaseのDBをサブスクライブする
  */
-export const useFireBaseTimer = (
-  googleMeetSetting: GoogleMeetSetting,
-): FireBaseTimerValue => {
+export const useFireBaseTimer = (googleMeetSetting: GoogleMeetSetting): FireBaseTimerValue => {
   const { data, isSubscribeReady } = useFireBaseDBSubscribe({
     path: googleMeetSettingGetDBMeetingPath(googleMeetSetting.meetingId),
-  });
+  })
 
   if (!isSubscribeReady || data == null)
     return {
       isSubscribeReady,
       globalTimerState: null,
-    };
+    }
 
   return {
     isSubscribeReady,
@@ -57,5 +52,5 @@ export const useFireBaseTimer = (
       settingTime: data?.settingTime ?? '',
       startDateTime: data?.startDateTime ?? null,
     },
-  };
-};
+  }
+}

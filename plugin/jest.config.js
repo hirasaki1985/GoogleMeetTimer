@@ -1,5 +1,5 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['<rootDir>/**/__test__/**/*.test.{ts,tsx}'],
@@ -22,3 +22,5 @@ module.exports = {
     customExportConditions: [''],
   },
 };
+
+

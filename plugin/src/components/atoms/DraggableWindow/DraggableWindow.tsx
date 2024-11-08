@@ -1,25 +1,19 @@
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
-import './DraggableWindow.css';
-import { Icon, IconType } from '@/components/atoms/Icon';
+import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable'
+import './DraggableWindow.css'
+import { Icon, IconType } from '@/components/atoms/Icon'
 import {
   DraggableWindowPosition,
   initDraggableWindowPosition,
-} from '@/components/atoms/DraggableWindow/DraggableWindowType';
+} from '@/components/atoms/DraggableWindow/DraggableWindowType'
 
 interface DraggableWindowProps {
-  position?: DraggableWindowPosition;
-  onDragStop?: (position: DraggableWindowPosition) => void;
-  containerClassName?: string;
-  windowClassName?: string;
-  header?: ReactNode;
-  children?: ReactNode;
+  position?: DraggableWindowPosition
+  onDragStop?: (position: DraggableWindowPosition) => void
+  containerClassName?: string
+  windowClassName?: string
+  header?: ReactNode
+  children?: ReactNode
 }
 
 /**
@@ -34,26 +28,27 @@ export const DraggableWindow = ({
   children,
 }: DraggableWindowProps) => {
   // position
-  const [currentPosition, setCurrentPosition] =
-    useState<DraggableWindowPosition>(initDraggableWindowPosition());
+  const [currentPosition, setCurrentPosition] = useState<DraggableWindowPosition>(
+    initDraggableWindowPosition(),
+  )
   useEffect(() => {
-    if (position == null) return;
-    setCurrentPosition(position);
-  }, [position]);
+    if (position == null) return
+    setCurrentPosition(position)
+  }, [position])
 
   /**
    * ドラッグされた時
    */
   const handleDragStop = useCallback(
     (e: DraggableEvent, data: DraggableData) => {
-      const _position: DraggableWindowPosition = { x: data.x, y: data.y };
-      setCurrentPosition(_position);
+      const _position: DraggableWindowPosition = { x: data.x, y: data.y }
+      setCurrentPosition(_position)
       if (onDragStop) {
-        onDragStop(_position);
+        onDragStop(_position)
       }
     },
     [position],
-  );
+  )
 
   /**
    * header
@@ -62,11 +57,11 @@ export const DraggableWindow = ({
     return header ? (
       header
     ) : (
-      <div className="header">
+      <div className='header'>
         <Icon type={IconType.Draggable} className={'cursor-move'} />
       </div>
-    );
-  }, [header]);
+    )
+  }, [header])
 
   /**
    * render
@@ -77,12 +72,10 @@ export const DraggableWindow = ({
       onStop={handleDragStop}
       position={currentPosition}
     >
-      <div
-        className={`draggable-window ${windowClassName ? windowClassName : ''}`}
-      >
+      <div className={`draggable-window ${windowClassName ? windowClassName : ''}`}>
         {headerComponent}
         {children}
       </div>
     </Draggable>
-  );
-};
+  )
+}
