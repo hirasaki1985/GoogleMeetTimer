@@ -27,4 +27,4 @@ lerna-debug.log*
 dist
 cert
 *GoogleMeetTimer*.zip
-
+plugin/sample

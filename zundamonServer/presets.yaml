@@ -1,0 +1,20 @@
+- name: "Zundamon Normal"
+  speaker_id: 3
+  speed: 1.0
+  pitch: 0.0
+  intonation: 1.0
+  volume: 1.0
+
+- name: "Zundamon Sweet"
+  speaker_id: 25
+  speed: 1.2
+  pitch: 0.5
+  intonation: 1.2
+  volume: 1.0
+
+- name: "Zundamon Tsundere"
+  speaker_id: 26
+  speed: 1.0
+  pitch: -0.5
+  intonation: 1.0
+  volume: 0.8

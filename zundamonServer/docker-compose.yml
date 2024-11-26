@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  voicevox:
+    image: voicevox/voicevox_engine:latest
+    # build:
+    #   context: "./docker/VoiceVoxEngine"
+    #   dockerfile: Dockerfile
+    container_name: voicevox_engine
+    ports:
+      - "8080:50021" # ホストの50021ポートをコンテナの50021ポートにマッピング
+    environment:
+      - VOICEVOX_VERSION=0.14.5
+      - VV_PRESET_FILE=/opt/voicevox_engine/presets.yaml
+    # 必要な環境変数を設定（オプション）
+    # VOICEVOX_CORE_DIR: "/path/to/core" # VOICEVOX COREが必要な場合はパスを指定
+    volumes:
+      - data:/root/.voicevox # 必要に応じてデータ永続化のためのボリュームを指定
+      - "./presets.yaml:/opt/voicevox_engine/presets.yaml"
+    restart: unless-stopped
+
+volumes:
+  data:
+    driver: local
