@@ -1,0 +1,5 @@
+{
+  "watch": ["src"],
+  "ext": "ts js json",
+  "exec": "pnpm tsc && functions-framework --target=helloWorld --source=dist/index.js"
+}
