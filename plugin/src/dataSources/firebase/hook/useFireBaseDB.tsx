@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { onValue, ref } from 'firebase/database'
-import { firebaseDataBase } from '@/common/firebase/FirebaseClient'
-import { FirebaseDBRepository } from '@/common/firebase/repository/FirebaseDBRepository'
+import { firebaseDataBase } from '@/dataSources/firebase/FirebaseClient'
+import { FirebaseDBRepository } from '@/dataSources/firebase/repository/FirebaseDBRepository'
 
 /**
  * const

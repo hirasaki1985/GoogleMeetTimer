@@ -1,6 +1,6 @@
-import { LocalStorageRepository } from '@/common/localStorage/repository/LocalStorageRepository'
+import { LocalStorageRepository } from '@/dataSources/localStorage/repository/LocalStorageRepository'
 import { initLocalTimerState, LocalTimerState } from '@/features/timer/type/TimerType'
-import { localStorageGetLocalTimerStateKey } from '@/common/localStorage/helper/LocalStorageHelper'
+import { localStorageGetLocalTimerStateKey } from '@/dataSources/localStorage/helper/LocalStorageHelper'
 import { draggableWindowDefaultPosition } from '@/components/atoms/DraggableWindow'
 
 export class TimerRepository {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { useGoogleMeetSettingContext } from '@/common/googleMeet/context/GoogleMeetSettingContext'
+import { useGoogleMeetSettingContext } from '@/dataSources/googleMeet/context/GoogleMeetSettingContext'
 import { TimerContextProvider, useTimerContext } from '@/features/timer/context/TimerContext'
 import { GoogleMeetTimePicker } from '@/components/molecules/GoogleMeetTimePicker'
 

@@ -2,10 +2,10 @@ import {
   useFireBaseDBSubscribe,
   useFirebaseDBUpdate,
   useFirebaseDBWrite,
-} from '@/common/firebase/hook/useFireBaseDB'
-import { GoogleMeetSetting } from '@/common/googleMeet/type/GoogleMeetSettingType'
+} from '@/dataSources/firebase/hook/useFireBaseDB'
+import { GoogleMeetSetting } from '@/dataSources/googleMeet/type/GoogleMeetSettingType'
 import { GlobalTimerState } from '@/features/timer/type/TimerType'
-import { googleMeetSettingGetDBMeetingPath } from '@/common/googleMeet/helper/GoogleMeetSettingHelper'
+import { googleMeetSettingGetDBMeetingPath } from '@/dataSources/googleMeet/helper/GoogleMeetSettingHelper'
 import { useCallback } from 'react'
 
 interface FireBaseTimerValue {

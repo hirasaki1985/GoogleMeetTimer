@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useCallback, useContext, useState } fr
 import {
   GoogleMeetSetting,
   initGoogleMeetSetting,
-} from '@/common/googleMeet/type/GoogleMeetSettingType'
+} from '@/dataSources/googleMeet/type/GoogleMeetSettingType'
 
 /**
  * state

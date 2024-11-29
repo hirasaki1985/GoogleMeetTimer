@@ -1,5 +1,7 @@
 {
   "watch": ["src"],
-  "ext": "ts js json",
-  "exec": "pnpm tsc && functions-framework --target=helloWorld --source=dist/index.js"
+  "ext": "ts",
+  "exec": "tsc && functions-framework --target=helloWorld --source=dist/src/index.js --port=8081",
+  "exec-bk2": "ts-node -r tsconfig-paths/register src/index.ts",
+  "exec-bk": "tsc && functions-framework --target=helloWorld --source=dist/src/index.js --port=8081"
 }

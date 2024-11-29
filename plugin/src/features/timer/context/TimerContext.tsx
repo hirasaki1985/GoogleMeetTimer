@@ -5,7 +5,7 @@ import {
   initLocalTimerState,
   LocalTimerState,
 } from '@/features/timer/type/TimerType'
-import { GoogleMeetSetting } from '@/common/googleMeet/type/GoogleMeetSettingType'
+import { GoogleMeetSetting } from '@/dataSources/googleMeet/type/GoogleMeetSettingType'
 import { useFireBaseTimer, useUpdateFireBaseTimer } from '@/features/timer/hook/useFireBaseTimer'
 import dayjs from 'dayjs'
 import {
