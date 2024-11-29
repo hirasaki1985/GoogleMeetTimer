@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon",
-    "deploy": "gcloud functions deploy helloWorld --runtime nodejs20 --trigger-http --allow-unauthenticated",
+    "deploy": "gcloud functions deploy api --runtime nodejs20 --trigger-http --allow-unauthenticated",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
     "format": "prettier --write 'src/**/*.{js,ts,json}'",
