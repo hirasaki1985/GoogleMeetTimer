@@ -3,20 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "tsc",
     "start": "nodemon",
-    "start-bk": "nodemon --exec 'functions-framework --target=helloWorld'",
-    "deploy": "gcloud functions deploy helloWorld --runtime nodejs18 --trigger-http --allow-unauthenticated",
+    "deploy": "gcloud functions deploy helloWorld --runtime nodejs20 --trigger-http --allow-unauthenticated",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
     "format": "prettier --write 'src/**/*.{js,ts,json}'",
-    "execute-test": "node --loader ts-node/esm --experimental-specifier-resolution=node src/test.ts"
-  },
-  "functions": {
-    "source": "./dist",
-    "target": "helloWorld"
+    "execute-test": "ts-node src/test.ts"
   },
   "keywords": [],
   "author": "",

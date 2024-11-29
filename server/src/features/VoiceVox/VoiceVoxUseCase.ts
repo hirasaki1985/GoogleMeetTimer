@@ -3,6 +3,8 @@ import { FirebaseStorageRepository } from '../../dataSources/firebase/storage/Fi
 import { dotEnvFirebaseStorage, dotEnvVoiceVox } from '../../dataSources/env/DotEnv'
 import { VoiceVoxClient } from '../../dataSources/voiceVox/voiceVoxClient'
 import { firebaseStorage } from '../../dataSources/firebase/firebase'
+import path from 'path'
+import { firebaseStorageZundamonMp3BasePath } from '../common/FirebaseStorageConst'
 
 export class VoiceVoxUseCase {
   private voiceVoxRepository: VoiceVoxRepository
@@ -17,18 +19,39 @@ export class VoiceVoxUseCase {
   }
 
   /**
-   * speechTextを音声化してstorageにアップロードする
+   * 音声の認証付きURLを取得する。
+   *
+   * Storageにない場合はspeechTextを音声化してstorageにアップロードする
+   * @param speechText 喋らせたい内容
+   * @return 認証付きURL
    */
-  public async saveMp3BySpeechText(speechText: string, filePath: string): Promise<string> {
-    const arrayBuffer = await this.voiceVoxRepository.generateVoice(speechText)
-    console.log('VoiceVoxUseCase saveMp3BySpeechText() arrayBuffer', arrayBuffer.byteLength)
+  public async fetchSignedUrl(speechText: string): Promise<string> {
+    try {
+      const filePath = path.join(firebaseStorageZundamonMp3BasePath, `${speechText}.mp3`)
+      console.log('VoiceVoxUseCase fetchSignedUrl()', speechText, filePath)
 
-    await this.firebaseStorageRepository.uploadArrayBuffer(
-      this.storageBucketName,
-      filePath,
-      arrayBuffer,
-    )
+      const isAlreadyUploaded = await this.firebaseStorageRepository.isAlreadyUploaded(
+        this.storageBucketName,
+        filePath,
+      )
+      if (!isAlreadyUploaded) {
+        const arrayBuffer = await this.voiceVoxRepository.generateVoice(speechText)
+        console.log('VoiceVoxUseCase fetchSignedUrl() arrayBuffer', arrayBuffer.byteLength)
 
-    return filePath
+        await this.firebaseStorageRepository.uploadArrayBuffer(
+          this.storageBucketName,
+          filePath,
+          arrayBuffer,
+        )
+      }
+
+      return await this.firebaseStorageRepository.generateSignedUrl(
+        this.storageBucketName,
+        filePath,
+      )
+    } catch (e) {
+      console.error(e)
+      return ''
+    }
   }
 }
