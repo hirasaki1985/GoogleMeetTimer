@@ -1,0 +1,13 @@
+{
+  "name": "googlemeettimer",
+  "version": "1.0.1",
+  "description": "googleミートの参加者でタイマーを共有する。",
+  "main": "aspida.config.js",
+  "scripts": {
+    "generate-web-api": "npm run generate-webapi-front",
+    "generate-webapi-front": "rm -rf plugin/src/dataSources/webApi/openapi/* && npx openapi2aspida"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
