@@ -1,19 +1,19 @@
 import {
   initWebApiFetchSignedUrlResponse,
-  WebApiFetchSignedUrlGet,
   WebApiFetchSignedUrlRequest,
   WebApiFetchSignedUrlResponse,
-} from '@/dataSources/webApi/type/WebApiRepositoryType'
+} from '@/dataSources/webApi/fetchSignedUrl/type'
 import { Mutex } from 'async-mutex'
-import { setWebApiErrorResponse } from '@/dataSources/webApi/common/WebApiResponse'
-import axios from 'axios'
+import { setWebApiErrorResponse } from '@/dataSources/webApi/WebApiResponse'
+import { aspidaClient } from '@/dataSources/webApi/AspidaClient'
 
 /**
  * Mutex
  */
 const getMutex = new Mutex()
 
-export class WebApiRepository {
+export class WebApiFetchSignedUrlRepository {
+  private aspidaClient = aspidaClient
   public async fetchSignedUrl(
     request: WebApiFetchSignedUrlRequest,
   ): Promise<WebApiFetchSignedUrlResponse> {
@@ -27,12 +27,16 @@ export class WebApiRepository {
 
     try {
       // execute api
-      const result = await axios.get(WebApiFetchSignedUrlGet, {})
+      const result = await this.aspidaClient.speechTextSignedUrl.get({
+        query: {
+          text: request.text,
+        },
+      })
 
       // create response
       return initWebApiFetchSignedUrlResponse()
         .setData({
-          url: result.data?.url ?? '',
+          url: result.body?.url ?? '',
         })
         .setCodeSuccess()
     } catch (e) {

@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react'
 import { ApplicationSetting, initApplicationSetting } from '../type/ApplicationSettingType'
-import { getEnvApplication } from '@/utils/DotEnv'
+import { getEnvApplication } from '@/dataSources/dotEnv/DotEnv'
 
 /**
  * state

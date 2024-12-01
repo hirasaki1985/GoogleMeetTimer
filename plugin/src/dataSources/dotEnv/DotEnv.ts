@@ -12,3 +12,7 @@ export const getEnvFirebase = () => ({
 export const getEnvApplication = () => ({
   whiteList: process.env.VITE_APP_WHITE_LIST as string,
 })
+
+export const getEnvWebApi = () => ({
+  baseUrl: process.env.VITE_WEB_API_BASE_URL as string,
+})

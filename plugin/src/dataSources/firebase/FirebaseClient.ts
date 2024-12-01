@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getDatabase } from 'firebase/database'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
-import { getEnvFirebase } from '@/utils/DotEnv'
+import { getEnvFirebase } from '@/dataSources/dotEnv/DotEnv'
 
 const firebaseConfig = getEnvFirebase()
 console.log('FirebaseClient firebaseConfig', firebaseConfig)

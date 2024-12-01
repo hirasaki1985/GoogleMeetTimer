@@ -1,10 +1,9 @@
-import { WebApiResponse } from '@/dataSources/webApi/common/WebApiResponse'
+import { WebApiResponse } from '@/dataSources/webApi/WebApiResponse'
 import { SpeechTextSignedUrlResponse } from '@/dataSources/webApi/openapi/api/@types'
 
 /**
  * fetchSignedUrl
  */
-export const WebApiFetchSignedUrlGet = '/speechTextSignedUrl'
 export interface WebApiFetchSignedUrlRequest {
   text: string
 }
