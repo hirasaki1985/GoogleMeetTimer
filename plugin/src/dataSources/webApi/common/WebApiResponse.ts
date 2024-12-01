@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 /**
  * response code
  */
-export const DomainResponseStatus = {
+export const WebApiResponseStatus = {
   Init: 0,
   Processing: 1, // get mutex limit
   Ok: 200, // success
@@ -16,29 +16,29 @@ export const DomainResponseStatus = {
   UnprocessableEntity: 422,
   InternalServerError: 500, // server error
 } as const
-export type DomainResponseStatus = (typeof DomainResponseStatus)[keyof typeof DomainResponseStatus]
+export type WebApiResponseStatus = (typeof WebApiResponseStatus)[keyof typeof WebApiResponseStatus]
 
 /**
  * success code
  */
-const DomainSuccessCodes: DomainResponseStatus[] = [
-  DomainResponseStatus.Ok,
-  DomainResponseStatus.Created,
-  DomainResponseStatus.NoContent,
+const WebApiSuccessCodes: WebApiResponseStatus[] = [
+  WebApiResponseStatus.Ok,
+  WebApiResponseStatus.Created,
+  WebApiResponseStatus.NoContent,
 ]
 
 /**
  * error payload
  * サーバ側でエラー(例外)があった場合のエラーメッセージ
  */
-export interface DomainResponseErrorPayload {
+export interface WebApiResponseErrorPayload {
   message: string
 }
 
 /**
  * サーバ側でvalidateに引っかかった時のフォーマット
  */
-export interface DomainResponseValidateErrorPayload {
+export interface WebApiResponseValidateErrorPayload {
   location: string
   msg: string
   param: string
@@ -51,10 +51,10 @@ export interface DomainResponseValidateErrorPayload {
 export class ProcessingRequestError extends Error {}
 
 /**
- * DomainResponse
+ * WebApiResponse
  */
-export class DomainResponse<Data> {
-  public status: DomainResponseStatus = DomainResponseStatus.Init
+export class WebApiResponse<Data> {
+  public status: WebApiResponseStatus = WebApiResponseStatus.Init
   public data: Data
 
   // errors
@@ -81,8 +81,8 @@ export class DomainResponse<Data> {
 
     if (axiosResponse.status) {
       this.status = Number(axiosResponse.status)
-        ? (Number(axiosResponse.status) as DomainResponseStatus)
-        : DomainResponseStatus.Init
+        ? (Number(axiosResponse.status) as WebApiResponseStatus)
+        : WebApiResponseStatus.Init
     }
 
     if (!this.isSuccess()) {
@@ -105,46 +105,46 @@ export class DomainResponse<Data> {
    * is success
    */
   isSuccess() {
-    return DomainSuccessCodes.includes(this.status)
+    return WebApiSuccessCodes.includes(this.status)
   }
 
   hasValidate() {
-    return this.status === DomainResponseStatus.BadRequest
+    return this.status === WebApiResponseStatus.BadRequest
   }
 
   isProcessing() {
-    return this.status === DomainResponseStatus.Processing
+    return this.status === WebApiResponseStatus.Processing
   }
 
   /**
    * set code
    */
   public setCodeSuccess() {
-    this.status = DomainResponseStatus.Ok
+    this.status = WebApiResponseStatus.Ok
     return this
   }
 
   public setCodeError() {
-    this.status = DomainResponseStatus.Init
+    this.status = WebApiResponseStatus.Init
     return this
   }
 
   public setCodeProcessing() {
-    this.status = DomainResponseStatus.Processing
+    this.status = WebApiResponseStatus.Processing
     return this
   }
 
   public setValidateError() {
-    this.status = DomainResponseStatus.BadRequest
+    this.status = WebApiResponseStatus.BadRequest
     return this
   }
 
-  public setCode(code: DomainResponseStatus) {
+  public setCode(code: WebApiResponseStatus) {
     this.status = code
     return this
   }
 
-  public setCodeByHttpCode(code: DomainResponseStatus) {
+  public setCodeByHttpCode(code: WebApiResponseStatus) {
     this.status = code
     return this
   }
@@ -152,12 +152,12 @@ export class DomainResponse<Data> {
   /**
    * set error
    */
-  public setByErrorResponse(axiosError: AxiosError<DomainResponseErrorPayload>) {
+  public setByErrorResponse(axiosError: AxiosError<WebApiResponseErrorPayload>) {
     if (axiosError == null) return this
 
     this.status = Number(axiosError.response?.status || '')
-      ? (Number(axiosError.response?.status) as DomainResponseStatus)
-      : DomainResponseStatus.Init
+      ? (Number(axiosError.response?.status) as WebApiResponseStatus)
+      : WebApiResponseStatus.Init
     this.errorCode = axiosError.code || ''
     this.errorHttpMessage = axiosError.message || ''
     this.errorMessage = axiosError.response?.data?.message || ''
@@ -202,7 +202,7 @@ export class DomainResponse<Data> {
    * validateメッセージがあった場合に返す
    * undefined = なし
    */
-  public getValidateMessages(): DomainResponseValidateErrorPayload[] | undefined {
+  public getValidateMessages(): WebApiResponseValidateErrorPayload[] | undefined {
     if (
       this.axiosResponse?.data?.errors &&
       Array.isArray(this.axiosResponse.data.errors) &&
@@ -218,7 +218,7 @@ export class DomainResponse<Data> {
    * 最初のvalidateメッセージを返す
    * undefined = なし
    */
-  public getFirstValidateMessage(): DomainResponseValidateErrorPayload | undefined {
+  public getFirstValidateMessage(): WebApiResponseValidateErrorPayload | undefined {
     if (
       this.axiosResponse?.data?.errors &&
       Array.isArray(this.axiosResponse.data.errors) &&
@@ -242,10 +242,10 @@ export class DomainResponse<Data> {
 /**
  * 例外処理のハンドリング
  */
-export async function setDomainErrorResponse<Data>(
-  data: DomainResponse<Data>,
+export async function setWebApiErrorResponse<Data>(
+  data: WebApiResponse<Data>,
   e: unknown,
-): Promise<DomainResponse<Data>> {
+): Promise<WebApiResponse<Data>> {
   // if (e instanceof HTTPError) {
   //   const errorMessage = await e.response.text()
   //   const parseData = JSON.parse(errorMessage)

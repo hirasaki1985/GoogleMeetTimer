@@ -5,7 +5,7 @@ import {
   WebApiFetchSignedUrlResponse,
 } from '@/dataSources/webApi/type/WebApiRepositoryType'
 import { Mutex } from 'async-mutex'
-import { setDomainErrorResponse } from '@/dataSources/webApi/common/DomainResponse'
+import { setWebApiErrorResponse } from '@/dataSources/webApi/common/WebApiResponse'
 import axios from 'axios'
 
 /**
@@ -36,7 +36,7 @@ export class WebApiRepository {
         })
         .setCodeSuccess()
     } catch (e) {
-      return await setDomainErrorResponse(initWebApiFetchSignedUrlResponse(), e)
+      return await setWebApiErrorResponse(initWebApiFetchSignedUrlResponse(), e)
     } finally {
       // release
       release()

@@ -1,4 +1,4 @@
-import { DomainResponse } from '@/dataSources/webApi/common/DomainResponse'
+import { WebApiResponse } from '@/dataSources/webApi/common/WebApiResponse'
 import { SpeechTextSignedUrlResponse } from '@/dataSources/webApi/openapi/api/@types'
 
 /**
@@ -9,8 +9,8 @@ export interface WebApiFetchSignedUrlRequest {
   text: string
 }
 export type WebApiFetchSignedUrlPayload = SpeechTextSignedUrlResponse
-export type WebApiFetchSignedUrlResponse = DomainResponse<WebApiFetchSignedUrlPayload>
+export type WebApiFetchSignedUrlResponse = WebApiResponse<WebApiFetchSignedUrlPayload>
 export const initWebApiFetchSignedUrlResponse = () =>
-  new DomainResponse<WebApiFetchSignedUrlPayload>({
+  new WebApiResponse<WebApiFetchSignedUrlPayload>({
     url: '',
   })
