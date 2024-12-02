@@ -26,12 +26,14 @@ export class WebApiFetchSignedUrlRepository {
     const release = await getMutex.acquire()
 
     try {
+      console.log('WebApiFetchSignedUrlRepository fetchSignedUrl() request', request)
       // execute api
       const result = await this.aspidaClient.speechTextSignedUrl.get({
         query: {
           text: request.text,
         },
       })
+      console.log('WebApiFetchSignedUrlRepository fetchSignedUrl() result', result)
 
       // create response
       return initWebApiFetchSignedUrlResponse()
@@ -40,6 +42,7 @@ export class WebApiFetchSignedUrlRepository {
         })
         .setCodeSuccess()
     } catch (e) {
+      console.log(e)
       return await setWebApiErrorResponse(initWebApiFetchSignedUrlResponse(), e)
     } finally {
       // release

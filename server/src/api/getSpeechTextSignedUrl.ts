@@ -10,6 +10,7 @@ export const getSpeechTextSignedUrl = async (req: Request, res: Response): Promi
     const useCase = new VoiceVoxUseCase()
 
     const url = await useCase.fetchSignedUrl(text)
+    console.log('getSpeechTextSignedUrl() url', url)
     res.send({
       url: url,
     })

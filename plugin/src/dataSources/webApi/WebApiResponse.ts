@@ -85,7 +85,7 @@ export class WebApiResponse<Data> {
         : WebApiResponseStatus.Init
     }
 
-    if (!this.isSuccess()) {
+    if (!this.success()) {
       if (axiosResponse instanceof AxiosError) {
         this.setByErrorResponse(axiosResponse)
       }
@@ -104,7 +104,7 @@ export class WebApiResponse<Data> {
   /**
    * is success
    */
-  isSuccess() {
+  success() {
     return WebApiSuccessCodes.includes(this.status)
   }
 

@@ -61,11 +61,9 @@ export const App = () => {
 
   return (
     <ApplicationSettingContextProvider>
-      <AuthProvider>
-        <GoogleMeetSettingContextProvider>
-          <AppContent />
-        </GoogleMeetSettingContextProvider>
-      </AuthProvider>
+      <GoogleMeetSettingContextProvider>
+        <AppContent />
+      </GoogleMeetSettingContextProvider>
     </ApplicationSettingContextProvider>
   )
 }

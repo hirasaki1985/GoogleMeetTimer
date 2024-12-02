@@ -7,9 +7,9 @@ export const aspidaClient = api(
   aspida(
     axios.create({
       baseURL: getEnvWebApi().baseUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
     }),
   ),
 )
