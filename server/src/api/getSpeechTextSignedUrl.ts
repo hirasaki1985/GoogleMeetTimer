@@ -6,18 +6,18 @@ import { VoiceVoxUseCase } from '../features/VoiceVox/VoiceVoxUseCase'
  */
 export const getSpeechTextSignedUrl = async (req: Request, res: Response): Promise<void> => {
   try {
-    const text = req.query.text || req.body.text
+    // const text = req.query.text || (req.body && req.body.text)
     const useCase = new VoiceVoxUseCase()
 
-    const url = await useCase.fetchSignedUrl(text)
+    const url = await useCase.fetchSignedUrl('テスト')
     console.log('getSpeechTextSignedUrl() url', url)
-    res.send({
-      url: url,
-    })
+    // res.send({
+    //   url: url,
+    // })
     return
   } catch (e) {
     console.error(e)
   }
 
-  res.send('error')
+  // res.send('error')
 }

@@ -1,0 +1,43 @@
+paths:
+  /fetchVoice:
+    put:
+      summary: meetingIdの音声データを最新の状態にする
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchVoicePutRequest'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchVoicePutResponse'
+        '400':
+          $ref: '../openapi.yaml#/components/responses/BadRequest'
+        '401':
+          $ref: '../openapi.yaml#/components/responses/Unauthorized'
+        '403':
+          $ref: '../openapi.yaml#/components/responses/Forbidden'
+        '500':
+          $ref: '../openapi.yaml#/components/responses/InternalServerError'
+components:
+  schemas:
+    FetchVoicePutRequest:
+      type: object
+      properties:
+        meetingId:
+          type: string
+          description: 会議ID
+      required:
+        - meetingId
+    FetchVoicePutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 成功したかどうか
+      required:
+        - success

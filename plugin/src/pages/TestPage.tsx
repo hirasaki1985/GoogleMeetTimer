@@ -11,7 +11,7 @@ export const TestPage = () => {
   const [text, setText] = useState('')
   const [url, setUrl] = useState('')
   return (
-    <div>
+    <div className={'m-8'}>
       <div>
         <input
           onChange={(_e) => {
@@ -20,9 +20,10 @@ export const TestPage = () => {
             }
           }}
           placeholder={'言わせたいテキスト'}
+          className={'border border-gray-400 w-96 p-2'}
         />
       </div>
-      <div>
+      <div className={'mt-2'}>
         <Button
           onClick={() => {
             fetchSignedUrl({

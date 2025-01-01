@@ -1,5 +1,6 @@
 import React from 'react'
 import { TestPage } from '@/pages/TestPage'
+import { GoogleMeetTimerPage } from '@/pages/GoogleMeetTimerPage'
 
 export const RootRouter = () => {
   // const { authState } = useAuthContext()
@@ -18,6 +19,6 @@ export const RootRouter = () => {
   }*/
 
   // return <>{viewPage}</>;
-  // return <GoogleMeetTimerPage />
-  return <TestPage />
+  return <GoogleMeetTimerPage />
+  // return <TestPage />
 }

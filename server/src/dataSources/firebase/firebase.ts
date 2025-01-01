@@ -1,5 +1,7 @@
 import { Storage } from '@google-cloud/storage'
 import dotenv from 'dotenv'
+import admin from 'firebase-admin'
+import { dotEnvFirebaseStorage } from '../env/DotEnv'
 
 // .env を読み込む
 dotenv.config()
@@ -11,6 +13,19 @@ if (!credentialsPath) {
   throw new Error('GOOGLE_APPLICATION_CREDENTIALS が設定されていません')
 }
 
+/**
+ * firebase storage
+ */
 export const firebaseStorage = new Storage({
   keyFilename: credentialsPath,
 })
+
+/**
+ * firebase admin
+ */
+export const firebaseAdmin = admin.initializeApp({
+  credential: admin.credential.cert(credentialsPath),
+  databaseURL: dotEnvFirebaseStorage().databaseUrl,
+})
+
+export const firebaseDataBase = firebaseAdmin.database(dotEnvFirebaseStorage().databaseUrl)

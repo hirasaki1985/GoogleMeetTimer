@@ -22,7 +22,7 @@ export const useUpdateFireBaseTimer = () => {
   const dbUpdate = useFirebaseDBUpdate()
 
   return useCallback(
-    async (googleMeetSetting: GoogleMeetSetting, globalTimerState: GlobalTimerState) => {
+    async (googleMeetSetting: GoogleMeetSetting, globalTimerState: Partial<GlobalTimerState>) => {
       return await dbUpdate(
         googleMeetSettingGetDBMeetingPath(googleMeetSetting?.meetingId),
         globalTimerState,
@@ -51,6 +51,7 @@ export const useFireBaseTimer = (googleMeetSetting: GoogleMeetSetting): FireBase
     globalTimerState: {
       settingTime: data?.settingTime ?? '',
       startDateTime: data?.startDateTime ?? null,
+      voices: data?.voices ?? null,
     },
   }
 }

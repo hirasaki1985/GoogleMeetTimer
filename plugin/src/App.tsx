@@ -6,7 +6,6 @@ import {
 import { initializer } from '@/initializer'
 import { RootRouter } from '@/router/RootRouter'
 import './global.css'
-import { AuthProvider } from '@/features/auth/context/AuthContext'
 import {
   ApplicationSettingContextProvider,
   useApplicationSettingContext,

@@ -3,6 +3,7 @@ import {
   draggableWindowDefaultPosition,
   DraggableWindowPosition,
 } from '@/components/atoms/DraggableWindow'
+import { VoiceManagerZundamonTextIds } from '@/features/voiceManager/const/VoiceManagerZundamonConst'
 
 /**
  * 参加者全体で共有する状態
@@ -10,14 +11,49 @@ import {
 export interface GlobalTimerState {
   settingTime: string // mm:ss 設定時間。この時間から徐々に減っていき0分となる
   startDateTime: string | null // null = 停止中、日時 = 開始した時間 // 2024-11-01T01:32:29.367Z
+  voices: GlobalTimerVoiceState | null // 音声管理
 }
 export const initGlobalTimerState = (): GlobalTimerState => ({
   settingTime: timerSettingTimeDefaultMinutes,
   startDateTime: null,
+  voices: initGlobalTimerStateVoiceUrls(),
 })
 
 /**
- * 個別の状態
+ * 音声データを管理する
+ */
+export interface GlobalTimerVoiceState {
+  zundamon: {
+    files: {
+      [key in VoiceManagerZundamonTextIds]: {
+        url: string // 認証付きURL
+        updatedAt: string // 更新日時
+      }
+    }
+  }
+}
+export interface GlobalTimerVoiceItem {
+  url: string // 認証付きURL
+  updatedAt: string // 更新日時
+}
+export const initGlobalTimerVoiceItem = (): GlobalTimerVoiceItem => ({
+  url: '',
+  updatedAt: '',
+})
+
+export const initGlobalTimerStateVoiceUrls = (): GlobalTimerVoiceState => ({
+  zundamon: {
+    files: {
+      [VoiceManagerZundamonTextIds.Start]: initGlobalTimerVoiceItem(),
+      [VoiceManagerZundamonTextIds.OneMinuteHasPassed]: initGlobalTimerVoiceItem(),
+      [VoiceManagerZundamonTextIds.OneMinuteLeft]: initGlobalTimerVoiceItem(),
+      [VoiceManagerZundamonTextIds.End]: initGlobalTimerVoiceItem(),
+    },
+  },
+})
+
+/**
+ * 参加者個別の状態
  */
 export interface LocalTimerState {
   position: DraggableWindowPosition

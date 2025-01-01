@@ -2,9 +2,14 @@ import React, { useCallback, useEffect } from 'react'
 import { useGoogleMeetSettingContext } from '@/dataSources/googleMeet/context/GoogleMeetSettingContext'
 import { TimerContextProvider, useTimerContext } from '@/features/timer/context/TimerContext'
 import { GoogleMeetTimePicker } from '@/components/molecules/GoogleMeetTimePicker'
+import {
+  useVoiceManagerContext,
+  VoiceManagerContextProvider,
+} from '@/features/voiceManager/context/VoiceManagerContext'
 
 const GoogleMeetTimerPageContent = () => {
   const { timeState, timeAction } = useTimerContext()
+  const { voiceManagerState, voiceManagerAction } = useVoiceManagerContext()
 
   /**
    * 初回ロード
@@ -12,6 +17,17 @@ const GoogleMeetTimerPageContent = () => {
   useEffect(() => {
     timeAction.initialize()
   }, [])
+
+  /**
+   * 音声データの初期化
+   */
+  useEffect(() => {
+    if (timeState.isReady) {
+      voiceManagerAction.fetchZundamonVoices()
+    }
+  }, [timeState.isReady])
+
+  console.log('GoogleMeetTimerPageContent voiceManagerState', voiceManagerState)
 
   /**
    * タイマーの時間が変更された時
@@ -55,7 +71,9 @@ export const GoogleMeetTimerPage = () => {
 
   return (
     <TimerContextProvider googleMeetSetting={googleMeetSettingState.setting}>
-      <GoogleMeetTimerPageContent />
+      <VoiceManagerContextProvider>
+        <GoogleMeetTimerPageContent />
+      </VoiceManagerContextProvider>
     </TimerContextProvider>
   )
 }
