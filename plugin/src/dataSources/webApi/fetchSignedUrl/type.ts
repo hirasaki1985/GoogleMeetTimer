@@ -1,5 +1,5 @@
 import { WebApiResponse } from '@/dataSources/webApi/WebApiResponse'
-import { SpeechTextSignedUrlResponse } from '@/dataSources/webApi/openapi/api/@types'
+import { SpeechTextSignedUrlResponse } from '@/dataSources/webApi/openapi/WebApi/@types'
 
 /**
  * fetchSignedUrl

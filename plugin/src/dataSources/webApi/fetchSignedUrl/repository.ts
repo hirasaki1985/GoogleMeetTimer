@@ -27,7 +27,7 @@ export class WebApiFetchSignedUrlRepository {
 
     try {
       console.log('WebApiFetchSignedUrlRepository fetchSignedUrl() request', request)
-      // execute api
+      // execute WebApi
       const result = await this.aspidaClient.speechTextSignedUrl.get({
         query: {
           text: request.text,

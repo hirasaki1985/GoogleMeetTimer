@@ -89,7 +89,7 @@ export class VoiceVoxUseCase {
       )
     } catch (e) {
       console.error(e)
-      return ''
+      throw e
     }
   }
 }

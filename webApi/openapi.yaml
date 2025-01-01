@@ -4,11 +4,77 @@ info:
   version: 1.0.0
 paths:
   /heartbeat:
-    $ref: './apis/heartbeat.yaml#/paths/~1heartbeat'
+    get:
+      summary: heartbeat
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeartBeatResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /speechTextSignedUrl:
-    $ref: './apis/speechTextSignedUrl.yaml#/paths/~1speechTextSignedUrl'
+    get:
+      summary: speech text signed url
+      parameters:
+        - name: text
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechTextSignedUrlResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /fetchVoice:
-    $ref: './apis/fetchVoice.yaml#/paths/~1fetchVoice'
+    put:
+      summary: meetingIdの音声データを最新の状態にする
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchVoicePutRequest'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchVoicePutResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  # /heartbeat:
+  #   $ref: './apis/heartbeat.yaml#/paths/~1heartbeat'
+  # /speechTextSignedUrl:
+  #   $ref: './apis/speechTextSignedUrl.yaml#/paths/~1speechTextSignedUrl'
+  # /fetchVoice:
+  #   $ref: './apis/fetchVoice.yaml#/paths/~1fetchVoice'
 components:
   responses:
     Found:
@@ -49,6 +115,7 @@ components:
           schema:
             $ref: '#/components/schemas/WebApiErrorResponse'
   schemas:
+    # WebApiError
     WebApiErrorResponseMessage:
       type: object
       properties:
@@ -73,3 +140,35 @@ components:
           type: array
           items:
               $ref: "#/components/schemas/WebApiErrorResponseMessage"
+
+    # HeartBeat
+    HeartBeatResponse:
+      type: boolean
+      
+    # SpeechTextSignedUrl
+    SpeechTextSignedUrlResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 音声データの認証付きURL
+      required:
+        - url
+
+    # FetchVoice
+    FetchVoicePutRequest:
+      type: object
+      properties:
+        meetingId:
+          type: string
+          description: 会議ID
+      required:
+        - meetingId
+    FetchVoicePutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 成功したかどうか
+      required:
+        - success

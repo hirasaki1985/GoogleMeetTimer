@@ -4,10 +4,13 @@
   "description": "googleミートの参加者でタイマーを共有する。",
   "main": "aspida.config.js",
   "scripts": {
-    "generate-web-api": "npm run generate-webapi-front",
-    "generate-webapi-front": "rm -rf plugin/src/dataSources/webApi/openapi/* && npx openapi2aspida"
+    "generate-web-api": "pnpm generate-webapi-front",
+    "generate-webapi-front": "rm -rf plugin/src/dataSources/webApi/openapi/* && openapi2aspida"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "openapi2aspida": "^0.24.0"
+  }
 }
