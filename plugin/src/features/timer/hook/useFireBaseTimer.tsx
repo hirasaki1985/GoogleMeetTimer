@@ -4,7 +4,7 @@ import {
   useFirebaseDBWrite,
 } from '@/dataSources/firebase/hook/useFireBaseDB'
 import { GoogleMeetSetting } from '@/dataSources/googleMeet/type/GoogleMeetSettingType'
-import { GlobalTimerState } from '@/features/timer/type/TimerType'
+import { GlobalTimerState } from '@/features/timer/type/GlobalTimerStateType'
 import { googleMeetSettingGetDBMeetingPath } from '@/dataSources/googleMeet/helper/GoogleMeetSettingHelper'
 import { useCallback } from 'react'
 

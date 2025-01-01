@@ -1,10 +1,5 @@
 import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react'
-import {
-  GlobalTimerState,
-  initGlobalTimerState,
-  initLocalTimerState,
-  LocalTimerState,
-} from '@/features/timer/type/TimerType'
+import { initLocalTimerState, LocalTimerState } from '@/features/timer/type/LocalTimerStateType'
 import { GoogleMeetSetting } from '@/dataSources/googleMeet/type/GoogleMeetSettingType'
 import { useFireBaseTimer, useUpdateFireBaseTimer } from '@/features/timer/hook/useFireBaseTimer'
 import dayjs from 'dayjs'
@@ -13,6 +8,7 @@ import {
   useLocalTimerStateUpdate,
 } from '@/features/timer/hook/useLocalTimerState'
 import { DraggableWindowPosition } from '@/components/atoms/DraggableWindow'
+import { GlobalTimerState, initGlobalTimerState } from '@/features/timer/type/GlobalTimerStateType'
 
 /**
  * state

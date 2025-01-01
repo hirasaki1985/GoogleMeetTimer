@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { timeHelperGetRestTime } from '@/features/timer/helper/TimerHelper'
-import { GlobalTimerState } from '@/features/timer/type/TimerType'
+import { GlobalTimerState } from '@/features/timer/type/LocalTimerStateType'
 
 const now = '2024-11-01T02:00:00.000Z'
 

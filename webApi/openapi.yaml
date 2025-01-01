@@ -69,12 +69,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  # /heartbeat:
-  #   $ref: './apis/heartbeat.yaml#/paths/~1heartbeat'
-  # /speechTextSignedUrl:
-  #   $ref: './apis/speechTextSignedUrl.yaml#/paths/~1speechTextSignedUrl'
-  # /fetchVoice:
-  #   $ref: './apis/fetchVoice.yaml#/paths/~1fetchVoice'
 components:
   responses:
     Found:

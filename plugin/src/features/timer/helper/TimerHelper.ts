@@ -1,4 +1,4 @@
-import { GlobalTimerState } from '@/features/timer/type/TimerType'
+import { GlobalTimerState } from '@/features/timer/type/GlobalTimerStateType'
 import dayjs, { Dayjs } from 'dayjs'
 
 /**

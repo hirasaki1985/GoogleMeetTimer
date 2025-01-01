@@ -59,4 +59,34 @@ export class VoiceManagerUseCase {
       throw e
     }
   }
+
+  /**
+   * 音声ファイルを最新の状態にする
+   */
+  public async fetchVoice(speechText: string): Promise<string> {
+    try {
+      const filePath = path.join(firebaseStorageZundamonMp3BasePath, `${speechText}.mp3`)
+      console.log('VoiceVoxUseCase fetchSignedUrl()', speechText, filePath)
+      const isAlreadyUploaded = await this.firebaseStorageRepository.isAlreadyUploaded(
+        this.storageBucketName,
+        filePath,
+      )
+      if (!isAlreadyUploaded) {
+        const arrayBuffer = await this.voiceVoxRepository.generateVoice(speechText)
+        console.log('VoiceVoxUseCase fetchSignedUrl() arrayBuffer', arrayBuffer.byteLength)
+        await this.firebaseStorageRepository.uploadArrayBuffer(
+          this.storageBucketName,
+          filePath,
+          arrayBuffer,
+        )
+      }
+      return await this.firebaseStorageRepository.generateSignedUrl(
+        this.storageBucketName,
+        filePath,
+      )
+    } catch (e) {
+      console.error(e)
+      return ''
+    }
+  }
 }

@@ -1,9 +1,5 @@
 import { timerSettingTimeDefaultMinutes } from '@/features/timer/const/TimerConfig'
-import {
-  draggableWindowDefaultPosition,
-  DraggableWindowPosition,
-} from '@/components/atoms/DraggableWindow'
-import { VoiceManagerZundamonTextIds } from '@/features/voiceManager/const/VoiceManagerZundamonConst'
+import { VoiceManagerTextIds } from '@/features/voiceManager/const/VoiceManagerConst'
 
 /**
  * 参加者全体で共有する状態
@@ -25,7 +21,7 @@ export const initGlobalTimerState = (): GlobalTimerState => ({
 export interface GlobalTimerVoiceState {
   zundamon: {
     files: {
-      [key in VoiceManagerZundamonTextIds]: {
+      [key in VoiceManagerTextIds]: {
         url: string // 認証付きURL
         updatedAt: string // 更新日時
       }
@@ -44,20 +40,10 @@ export const initGlobalTimerVoiceItem = (): GlobalTimerVoiceItem => ({
 export const initGlobalTimerStateVoiceUrls = (): GlobalTimerVoiceState => ({
   zundamon: {
     files: {
-      [VoiceManagerZundamonTextIds.Start]: initGlobalTimerVoiceItem(),
-      [VoiceManagerZundamonTextIds.OneMinuteHasPassed]: initGlobalTimerVoiceItem(),
-      [VoiceManagerZundamonTextIds.OneMinuteLeft]: initGlobalTimerVoiceItem(),
-      [VoiceManagerZundamonTextIds.End]: initGlobalTimerVoiceItem(),
+      [VoiceManagerTextIds.Start]: initGlobalTimerVoiceItem(),
+      [VoiceManagerTextIds.OneMinuteHasPassed]: initGlobalTimerVoiceItem(),
+      [VoiceManagerTextIds.OneMinuteLeft]: initGlobalTimerVoiceItem(),
+      [VoiceManagerTextIds.End]: initGlobalTimerVoiceItem(),
     },
   },
-})
-
-/**
- * 参加者個別の状態
- */
-export interface LocalTimerState {
-  position: DraggableWindowPosition
-}
-export const initLocalTimerState = (): LocalTimerState => ({
-  position: draggableWindowDefaultPosition,
 })

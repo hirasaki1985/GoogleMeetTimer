@@ -2,9 +2,10 @@ import { DraggableWindow, DraggableWindowPosition } from '@/components/atoms/Dra
 import { TimePicker } from '@/components/atoms/TimePicker'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button } from '@/components/atoms/Button'
-import { GlobalTimerState, LocalTimerState } from '@/features/timer/type/TimerType'
+import { LocalTimerState } from '@/features/timer/type/LocalTimerStateType'
 import { timeHelperGetRestTime, timerHelperIsStart } from '@/features/timer/helper/TimerHelper'
 import { Spinner } from '@/components/atoms/Spinner'
+import { GlobalTimerState } from '@/features/timer/type/GlobalTimerStateType'
 
 /**
  * props
