@@ -19,6 +19,10 @@ export type SpeechTextSignedUrlResponse = {
 export type FetchVoicePutRequest = {
   /** 会議ID */
   meetingId: string;
+  /** テキストID */
+  textId: string;
+  /** 話者ID */
+  speakerId?: number | undefined;
 }
 
 export type FetchVoicePutResponse = {

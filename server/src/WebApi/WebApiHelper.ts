@@ -1,8 +1,15 @@
-import { WebApiErrorResponse } from './WebApiType'
+import { WebApiResponseStatus } from './WebApiConst'
+import { Response } from 'express'
 
 /**
- * Exceptionが発生した場合のAPIの戻り値を生成する
+ * Exception
  */
-export const webApiHelperHandleError = (error: Error): WebApiErrorResponse => {
-  return { success: false, messages: [{ type: 'error', message: error.message }] }
+export const webApiHelperHandleError = (error: Error | unknown, res: Response) => {
+  console.error(error)
+  if (error instanceof Error) {
+    res
+      .status(WebApiResponseStatus.InternalServerError)
+      .json({ success: false, messages: [{ type: 'error', message: error.message }] })
+    return
+  }
 }

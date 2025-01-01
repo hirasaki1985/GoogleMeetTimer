@@ -5,7 +5,7 @@ info:
 paths:
   /heartbeat:
     get:
-      summary: heartbeat
+      summary: 死活監視用API
       responses:
         '200':
           description: Successful request
@@ -23,7 +23,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /speechTextSignedUrl:
     get:
-      summary: speech text signed url
+      summary: mp3ファイルの認証付きURLを取得する
       parameters:
         - name: text
           in: query
@@ -162,8 +162,15 @@ components:
         meetingId:
           type: string
           description: 会議ID
+        textId:
+            type: string
+            description: テキストID
+        speakerId:
+          type: number
+          description: 話者ID
       required:
         - meetingId
+        - textId
     FetchVoicePutResponse:
       type: object
       properties:

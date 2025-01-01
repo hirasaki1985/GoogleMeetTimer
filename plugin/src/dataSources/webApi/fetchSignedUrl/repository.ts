@@ -14,6 +14,10 @@ const getMutex = new Mutex()
 
 export class WebApiFetchSignedUrlRepository {
   private aspidaClient = aspidaClient
+
+  /**
+   * 認証付きURLを取得する
+   */
   public async fetchSignedUrl(
     request: WebApiFetchSignedUrlRequest,
   ): Promise<WebApiFetchSignedUrlResponse> {

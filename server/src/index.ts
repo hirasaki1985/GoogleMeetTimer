@@ -4,29 +4,26 @@ import express from 'express'
 import cors from 'cors'
 import { middleware } from 'express-openapi-validator'
 import path from 'path'
-import { heartbeat } from './WebApi/apis/heartbeat'
-import { getSpeechTextSignedUrl } from './WebApi/apis/getSpeechTextSignedUrl'
+import { getHeartbeat } from './WebApi/apis/heartbeat'
+import { getSpeechTextSignedUrl } from './WebApi/apis/speechTextSignedUrl'
 import SwaggerParser from '@apidevtools/swagger-parser'
 import { OpenAPIV3, OpenApiValidatorOpts } from 'express-openapi-validator/dist/framework/types'
 import { dotEnvServer } from './dataSources/env/DotEnv'
+import { putFetchVoice } from './WebApi/apis/fetchVoice'
 
 const app = express()
 
-// OpenAPIスキーマの読み込み
-const apiSpecPath = path.resolve(__dirname, '../../webApi/openapi.yaml')
-
+/**
+ * OpenAPIスキーマを読み込む
+ */
 async function loadApiSpec(filePath: string): Promise<OpenApiValidatorOpts['apiSpec']> {
-  try {
-    console.log(`Loading OpenAPI spec from: ${filePath}`)
-    const api = await SwaggerParser.dereference(filePath)
-    console.log('OpenAPI spec loaded successfully')
-    return api as OpenAPIV3.DocumentV3
-  } catch (err) {
-    console.error('Error loading OpenAPI spec:', err)
-    throw err
-  }
+  const api = await SwaggerParser.dereference(filePath)
+  return api as OpenAPIV3.DocumentV3
 }
 
+/**
+ * サーバを起動する
+ */
 ;(async () => {
   try {
     // corsの設定
@@ -40,6 +37,7 @@ async function loadApiSpec(filePath: string): Promise<OpenApiValidatorOpts['apiS
     )
 
     // OpenAPIスキーマの読み込み
+    const apiSpecPath = path.resolve(__dirname, '../../webApi/openapi.yaml')
     const apiSpec = await loadApiSpec(apiSpecPath)
     app.use(express.json())
 
@@ -52,8 +50,9 @@ async function loadApiSpec(filePath: string): Promise<OpenApiValidatorOpts['apiS
     )
 
     // apiの読み込み
-    app.get('/heartbeat', heartbeat)
+    app.get('/heartbeat', getHeartbeat)
     app.get('/speechTextSignedUrl', getSpeechTextSignedUrl)
+    app.put('/fetchVoice', putFetchVoice)
 
     // サーバ起動
     const PORT = dotEnvServer().port

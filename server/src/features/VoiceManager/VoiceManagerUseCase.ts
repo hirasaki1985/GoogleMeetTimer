@@ -7,7 +7,7 @@ import path from 'path'
 import { firebaseStorageZundamonMp3BasePath } from '../common/FirebaseStorageConst'
 import { FirebaseRealTimeDatabaseRepository } from '../../dataSources/firebase/realTimeDatabase/FirebaseRealTimeDatabaseRepository'
 
-export class VoiceVoxUseCase {
+export class VoiceManagerUseCase {
   private voiceVoxRepository: VoiceVoxRepository
   private firebaseStorageRepository: FirebaseStorageRepository
   private firebaseRealTimeDatabaseRepository: FirebaseRealTimeDatabaseRepository
@@ -24,39 +24,6 @@ export class VoiceVoxUseCase {
   }
 
   /**
-   * 音声ファイルを最新の状態にする
-   */
-  public async fetchVoice(speechText: string): Promise<string> {
-    try {
-      const filePath = path.join(firebaseStorageZundamonMp3BasePath, `${speechText}.mp3`)
-      console.log('VoiceVoxUseCase fetchSignedUrl()', speechText, filePath)
-
-      const isAlreadyUploaded = await this.firebaseStorageRepository.isAlreadyUploaded(
-        this.storageBucketName,
-        filePath,
-      )
-      if (!isAlreadyUploaded) {
-        const arrayBuffer = await this.voiceVoxRepository.generateVoice(speechText)
-        console.log('VoiceVoxUseCase fetchSignedUrl() arrayBuffer', arrayBuffer.byteLength)
-
-        await this.firebaseStorageRepository.uploadArrayBuffer(
-          this.storageBucketName,
-          filePath,
-          arrayBuffer,
-        )
-      }
-
-      return await this.firebaseStorageRepository.generateSignedUrl(
-        this.storageBucketName,
-        filePath,
-      )
-    } catch (e) {
-      console.error(e)
-      return ''
-    }
-  }
-
-  /**
    * 音声の認証付きURLを取得する。
    *
    * Storageにない場合はspeechTextを音声化してstorageにアップロードする
@@ -66,7 +33,7 @@ export class VoiceVoxUseCase {
   public async fetchSignedUrl(speechText: string): Promise<string> {
     try {
       const filePath = path.join(firebaseStorageZundamonMp3BasePath, `${speechText}.mp3`)
-      console.log('VoiceVoxUseCase fetchSignedUrl()', speechText, filePath)
+      console.log('VoiceManagerUseCase fetchSignedUrl()', speechText, filePath)
 
       const isAlreadyUploaded = await this.firebaseStorageRepository.isAlreadyUploaded(
         this.storageBucketName,
@@ -74,7 +41,7 @@ export class VoiceVoxUseCase {
       )
       if (!isAlreadyUploaded) {
         const arrayBuffer = await this.voiceVoxRepository.generateVoice(speechText)
-        console.log('VoiceVoxUseCase fetchSignedUrl() arrayBuffer', arrayBuffer.byteLength)
+        console.log('VoiceManagerUseCase fetchSignedUrl() arrayBuffer', arrayBuffer.byteLength)
 
         await this.firebaseStorageRepository.uploadArrayBuffer(
           this.storageBucketName,
