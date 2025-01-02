@@ -7,14 +7,15 @@ import { webApiHelperHandleError } from '../WebApiHelper'
  */
 export const putFetchVoice = async (req: Request, res: Response): Promise<void> => {
   try {
-    const text = req.query.text || (req.body && req.body.text)
+    const meetingId = req.body && req.body.meetingId
+    const textId = req.body && req.body.textId
     const useCase = new VoiceManagerUseCase()
 
-    const url = await useCase.fetchSignedUrl(text)
-    console.log('fetchVoice url', url)
+    const success = await useCase.fetchVoice(meetingId, textId)
+    console.log('putFetchVoice() success', success)
 
     res.send({
-      url: url,
+      success,
     })
     return
   } catch (e) {

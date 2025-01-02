@@ -13,6 +13,9 @@ export class FirebaseRealTimeDatabaseRepository {
     this.database = admin
   }
 
+  /**
+   * pathのデータを取得する
+   */
   async get<T>(path: string): Promise<T | null> {
     const snapshot = await this.database.ref(path).once('value')
     return snapshot.val()
@@ -32,6 +35,9 @@ export class FirebaseRealTimeDatabaseRepository {
     await this.database.ref(path).update(value)
   }
 
+  /**
+   * pathのデータを削除する
+   */
   async remove(path: string): Promise<void> {
     await this.database.ref(path).remove()
   }

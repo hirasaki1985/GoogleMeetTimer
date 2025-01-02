@@ -7,8 +7,8 @@ import {
   onAuthStateChanged,
   signInWithRedirect,
 } from 'firebase/auth'
-import { useFirebaseAuth } from '@/dataSources/firebase/hook/useFirebaseAuth'
-import { firebaseGoogleProvider } from '@/dataSources/firebase/FirebaseClient'
+import { useFirebaseAuth } from '@/dataSources/base/firebase/hook/useFirebaseAuth'
+import { firebaseGoogleProvider } from '@/dataSources/base/firebase/FirebaseClient'
 
 /**
  * state

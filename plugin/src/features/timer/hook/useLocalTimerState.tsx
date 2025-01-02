@@ -1,5 +1,5 @@
 import { TimerRepository } from '@/features/timer/repository/TimerRepository'
-import { LocalStorageRepository } from '@/dataSources/localStorage/repository/LocalStorageRepository'
+import { LocalStorageRepository } from '@/dataSources/base/localStorage/LocalStorageRepository'
 import { useCallback } from 'react'
 import { LocalTimerState } from '@/features/timer/type/LocalTimerStateType'
 

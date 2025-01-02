@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react'
 import { GoogleMeetSetting } from '@/dataSources/googleMeet/type/GoogleMeetSettingType'
-import { useFirebaseDBUpdate } from '@/dataSources/firebase/hook/useFireBaseDB'
+import { useFirebaseDBUpdate } from '@/dataSources/base/firebase/hook/useFireBaseDB'
 import { useTimerContext } from '@/features/timer/context/TimerContext'
 
 /**
