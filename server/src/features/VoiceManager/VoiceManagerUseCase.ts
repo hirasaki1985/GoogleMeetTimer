@@ -35,7 +35,7 @@ export class VoiceManagerUseCase {
    */
   public async fetchSignedUrl(speechText: string): Promise<string> {
     const filePath = path.join(firebaseStorageZundamonMp3BasePath, `${speechText}.mp3`)
-    console.log('VoiceManagerUseCase fetchSignedUrl()', speechText, filePath)
+    console.log('VoiceManagerUseCase speechTextSignedUrl()', speechText, filePath)
 
     const isAlreadyUploaded = await this.firebaseStorageRepository.isAlreadyUploaded(
       this.storageBucketName,
@@ -43,7 +43,7 @@ export class VoiceManagerUseCase {
     )
     if (!isAlreadyUploaded) {
       const arrayBuffer = await this.voiceVoxRepository.generateVoice(speechText)
-      console.log('VoiceManagerUseCase fetchSignedUrl() arrayBuffer', arrayBuffer.byteLength)
+      console.log('VoiceManagerUseCase speechTextSignedUrl() arrayBuffer', arrayBuffer.byteLength)
 
       await this.firebaseStorageRepository.uploadArrayBuffer(
         this.storageBucketName,

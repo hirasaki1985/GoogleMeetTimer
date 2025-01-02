@@ -1,8 +1,8 @@
 import {
-  initWebApiFetchSignedUrlResponse,
-  WebApiFetchSignedUrlRequest,
-  WebApiFetchSignedUrlResponse,
-} from '@/dataSources/webApi/fetchSignedUrl/type'
+  initWebApiFetchSignedUrlGetResponse,
+  WebApiFetchSignedUrlGetRequest,
+  WebApiFetchSignedUrlGetResponse,
+} from '@/dataSources/webApi/speechTextSignedUrl/type'
 import { Mutex } from 'async-mutex'
 import { setWebApiErrorResponse } from '@/dataSources/webApi/WebApiResponse'
 import { aspidaClient } from '@/dataSources/webApi/AspidaClient'
@@ -18,36 +18,36 @@ export class WebApiFetchSignedUrlRepository {
   /**
    * 認証付きURLを取得する
    */
-  public async fetchSignedUrl(
-    request: WebApiFetchSignedUrlRequest,
-  ): Promise<WebApiFetchSignedUrlResponse> {
+  public async get(
+    request: WebApiFetchSignedUrlGetRequest,
+  ): Promise<WebApiFetchSignedUrlGetResponse> {
     // check: processing
     if (getMutex.isLocked()) {
-      return initWebApiFetchSignedUrlResponse().setCodeProcessing()
+      return initWebApiFetchSignedUrlGetResponse().setCodeProcessing()
     }
 
     // lock
     const release = await getMutex.acquire()
 
     try {
-      console.log('WebApiFetchSignedUrlRepository fetchSignedUrl() request', request)
+      console.log('WebApiFetchSignedUrlRepository get() request', request)
       // execute WebApi
       const result = await this.aspidaClient.speechTextSignedUrl.get({
         query: {
           text: request.text,
         },
       })
-      console.log('WebApiFetchSignedUrlRepository fetchSignedUrl() result', result)
+      console.log('WebApiFetchSignedUrlRepository get() result', result)
 
       // create response
-      return initWebApiFetchSignedUrlResponse()
+      return initWebApiFetchSignedUrlGetResponse()
         .setData({
           url: result.body?.url ?? '',
         })
         .setCodeSuccess()
     } catch (e) {
       console.log(e)
-      return await setWebApiErrorResponse(initWebApiFetchSignedUrlResponse(), e)
+      return await setWebApiErrorResponse(initWebApiFetchSignedUrlGetResponse(), e)
     } finally {
       // release
       release()

@@ -2,6 +2,9 @@ import React, { createContext, ReactNode, useCallback, useContext, useState } fr
 import { GoogleMeetSetting } from '@/dataSources/googleMeet/type/GoogleMeetSettingType'
 import { useFirebaseDBUpdate } from '@/dataSources/base/firebase/hook/useFireBaseDB'
 import { useTimerContext } from '@/features/timer/context/TimerContext'
+import { useFetchVoicePut } from '@/dataSources/webApi/fetchVoice/useFetchVoice'
+import { useGoogleMeetSettingContext } from '@/dataSources/googleMeet/context/GoogleMeetSettingContext'
+import { VoiceManagerTextIds } from '@/features/voiceManager/const/VoiceManagerConst'
 
 /**
  * state
@@ -56,12 +59,13 @@ export const VoiceManagerContextProvider = ({
 }: VoiceManagerProviderProps) => {
   // context
   const { timeState } = useTimerContext()
+  const { googleMeetSettingState } = useGoogleMeetSettingContext()
 
   // state
   const [isReady, setIsReady] = useState<boolean>(defaultState?.isReady)
 
   // hooks
-  const dbUpdate = useFirebaseDBUpdate()
+  const fetchVoicePut = useFetchVoicePut()
 
   /**
    * 初期化を行う
@@ -82,9 +86,13 @@ export const VoiceManagerContextProvider = ({
   /**
    * ずんだもんの音声のURLを最新の状態にする
    */
-  const fetchZundamonVoices = useCallback(() => {
+  const fetchZundamonVoices = useCallback(async () => {
     console.log('VoiceManagerContext fetchZundamonVoices()', timeState)
-  }, [timeState.isReady])
+    await fetchVoicePut({
+      meetingId: googleMeetSettingState.setting.meetingId,
+      textId: VoiceManagerTextIds.Start,
+    })
+  }, [timeState.isReady, googleMeetSettingState.setting.meetingId])
 
   /**
    * value

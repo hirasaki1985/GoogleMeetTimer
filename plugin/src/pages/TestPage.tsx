@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/atoms/Button'
-import { useFetchSignedUrl } from '@/dataSources/webApi/fetchSignedUrl/useFetchSignedUrl'
+import { useSpeechTextSignedUrlGet } from '@/dataSources/webApi/speechTextSignedUrl/useSpeechTextSignedUrl'
 
 /**
  * テストページ
  */
 export const TestPage = () => {
   console.log('TestPage')
-  const fetchSignedUrl = useFetchSignedUrl()
+  const fetchSignedUrl = useSpeechTextSignedUrlGet()
   const [text, setText] = useState('')
   const [url, setUrl] = useState('')
+
   return (
     <div className={'m-8'}>
       <div>
@@ -30,7 +31,7 @@ export const TestPage = () => {
               text,
             }).then((_result) => {
               if (_result.success()) {
-                console.log('TestPage fetchSignedUrl() result', _result)
+                console.log('TestPage speechTextSignedUrl() result', _result)
                 setUrl(_result.data.url)
               }
             })
